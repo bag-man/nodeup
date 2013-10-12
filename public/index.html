@@ -6,11 +6,23 @@
     socket.emit('domainSubmit', {'domainName': domain});
   }
 
+  function up() {
+    alert("Website looks up from here");
+  }
+
+  function down() {
+    alert("Website looks down from here");
+  }
+
   socket.on('result', function(data) {
     if(data.errorCode) {
-      alert(data.errorCode.code);
+      down();
     } else {
-      alert(data.status); 
+      if(data.statusCode == 200 || 301) {
+        up();
+      } else {
+        down();
+      }
     }
   });
 </script>

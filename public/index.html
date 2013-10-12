@@ -1,0 +1,21 @@
+<script src="http://localhost:81/socket.io/socket.io.js"></script>
+<script>
+  var socket = io.connect('http://localhost:81');
+  function testDomain() {
+    var domain = document.forms["domainInput"]["domain"].value;
+    socket.emit('domainSubmit', {'domainName': domain});
+  }
+
+  socket.on('result', function(data) {
+    if(data.errorCode) {
+      alert(data.errorCode.code);
+    } else {
+      alert(data.status); 
+    }
+  });
+</script>
+
+<form name=domainInput onSubmit="testDomain(); return false">
+  <input type=textbox name=domain>
+  <input type=submit value=Submit>
+</form>

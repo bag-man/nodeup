@@ -29,7 +29,7 @@
 	<body>
 		<div id="main" class="container" style="max-width: 750px">
 			<div class="row">
-				<form class="form-inline" name="domainInput" onSubmit="testDomain(); return false">
+				<form class="form-inline" id="domainInput" onSubmit="testDomain(); return false">
 					<div class="form-group col-lg-8">
 						<label class="sr-only" for="domain">Domain:</label>
 						<input class="form-control" type="text" id="domain" placeholder="example.com" />
@@ -44,7 +44,7 @@
 		<script src="assets/js/jquery.js"></script>
 		<script src="assets/js/bootstrap.js"></script>
 		<script src="http://localhost:81/socket.io/socket.io.js"></script>
-		<script>
+		<script type="text/javascript">
 			'use strict';
 
 			var socket				= io.connect('http://localhost:81');
@@ -52,10 +52,9 @@
 			var resultSuccess		= $('<div class="alert alert-success"><strong>Hooray!</strong> It\'s up!</div>')
 			var resultFail			= $('<div class="alert alert-danger"><strong>Arsebiscuits!</strong> It\'s down!</div>')
 
-			function testDomain() {
+			function testDomain(domain) {
 				$('#result').fadeOut('fast', function() {
 					$('#result').html(checking).fadeIn('fast');
-					var domain = $('#domain').val();
 					socket.emit('domainSubmit', {'domainName': domain});
 				});
 			}
@@ -74,6 +73,17 @@
 					processResult((data.statusCode == 200 || 301));
 				}
 			});
+
+			$('#domainInput').submit(function(){
+				testDomain($('#domain').val());
+			});
+
+			if(window.location.pathname.length) {
+				var path		= window.location.pathname.substr(1).split('/');
+				console.log(path);
+				$('#domain').val(path[0])
+				testDomain(path[0]);
+			}
 		</script>
 	</body>
 </html>

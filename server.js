@@ -63,3 +63,8 @@ function getStatusCode(domain, callback) {
       callback(null, e);
   });
 }
+
+//Test the status code
+function upFinder(code) {
+  return true;
+}

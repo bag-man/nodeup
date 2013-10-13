@@ -1,4 +1,5 @@
 var io = require('socket.io').listen(81);
+io.set('log level', 1); // reduce logging
 var express = require('express');
 var http = require('http');
 var app = express();
@@ -24,16 +25,16 @@ io.sockets.on('connection', function (socket) {
   console.log("Client connected");
 
   //Return codes to client on submission and keep refreshing
-  socket.on('domainSubmit', function(data) {
-    setInterval(function (){
-      for(i=0;i < clients.length;i++) {
-	var socket = clients[i];
+  for(i=0;i < clients.length;i++) {
+    var socket = clients[i];
+    socket.on('domainSubmit', function(data) {
+      setInterval(function (){
 	getStatusCode(data.domainName, function(statusCode, errorCode) {
 	    socket.emit('result', {'errorCode': errorCode, 'status': statusCode});
 	});
-      } 
-    }, 5000);
-  });
+      }, 5000);
+    });
+  }
 
   //Remove client from array on disconnect
   socket.on('disconnect', function() {

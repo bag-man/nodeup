@@ -11,8 +11,6 @@ app.configure(function () {
 
 //Accept an argument 
 app.get('/:domain', function(req, res){
-  var domain = req.params.domain;
-  console.log(domain);
   res.sendfile(__dirname + '/public/index.html');
 });
 

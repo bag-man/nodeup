@@ -1,0 +1,12 @@
+{
+	"name": "nodeup",
+	"description": "Node.JS-based website monitoring.",
+	"version": "0.0.1",
+	"dependencies": {
+		"express": "3.4.x",
+		"socket.io": "0.9.x"
+	},
+	"scripts": {
+		"start": "node server.js"
+	}
+}

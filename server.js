@@ -6,13 +6,15 @@ var app = express();
 
 //Serve the public directory
 app.configure(function () {
-    app.use("/", express.static(__dirname + '/public'));
+    app.use(express.static(__dirname + '/public'));
 });
 
 //This is the bit that is strange and I need to figure out how to get to work properly
 app.get('/:domain', function(req, res){
-  var domain = req.params.domain;
-  console.log("url arg " + domain);
+	//var domain = req.params.domain;
+	//console.log("url arg " + domain);
+	//res.send(domain);
+	res.sendfile(__dirname + '/public/index.html');
 });
 
 //A guy on IRC suggested this

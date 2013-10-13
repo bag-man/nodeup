@@ -9,9 +9,15 @@ app.configure(function () {
     app.use( "/", express.static(__dirname + '/public'));
 });
 
+//This is the bit that is strange and I need to figure out how to get to work properly
+app.get('/:domain', function(req, res){
+  var domain = req.params.domain;
+  console.log("url arg " + domain);
+});
+
 //On port 80
 app.listen(80); 
-
+ 
 //Initialise the array of clients
 var clients = [];
 

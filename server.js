@@ -35,9 +35,13 @@ io.sockets.on('connection', function (socket) {
 	getStatusCode(data.domainName, function(statusCode, errorCode) {
             //I need to determine if the CODE is UP or DOWN here. Gulp.
 	    //Also need to account for redirects so if it is a 301 make sure the thing it is redirecting to is up. 
+	    if(statusCode != null) {
+              var up = upFinder(statusCode); //Obviously need to write that function
+            } else {
+              var up = false;
+            }	      
 
-
-	    socket.emit('result', {'errorCode': errorCode, 'status': statusCode});
+	    socket.emit('result', {'errorCode': errorCode, 'status': statusCode}); //And update this to accomodate a boolean
 	});
       }, 5000);
     });

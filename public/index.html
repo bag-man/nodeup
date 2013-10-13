@@ -1,34 +1,79 @@
-<script src="http://localhost:81/socket.io/socket.io.js"></script>
-<script>
-  var socket = io.connect('http://localhost:81');
-  function testDomain() {
-    var domain = document.forms["domainInput"]["domain"].value;
-    socket.emit('domainSubmit', {'domainName': domain});
-  }
+<!DOCTYPE html>
+<html lang="en-GB">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link href="assets/css/bootstrap.css" rel="stylesheet" />
+		<link href="assets/css/bootstrap-theme.css" rel="stylesheet" />
+		<link href="assets/css/font-awesome.css" rel="stylesheet" />
+		<style type="text/css">
+			body {
+				background-image:		url('assets/imgs/background.png');
+			}
 
-  //Make these two functions one function with an argument...
-  function up() {                               
-    alert("Website looks up from here");
-  }
+			.container {
+				max-width:				750px;
+			}
 
-  function down() {
-    alert("Website looks down from here");
-  }
+			#main {
+				margin-top:				15%;
+			}
 
-  socket.on('result', function(data) {
-    if(data.errorCode) {
-      down();
-    } else {
-      if(data.statusCode == 200 || 301) {
-        up();
-      } else {
-        down();
-      }
-    }
-  });
-</script>
+			#result {
+				margin-top:				5%;
+				text-align: 			center;
+			}
+		</style>
+		<title>nodeup</title>
+	</head>
+	<body>
+		<div id="main" class="container" style="max-width: 750px">
+			<div class="row">
+				<form class="form-inline" name="domainInput" onSubmit="testDomain(); return false">
+					<div class="form-group col-lg-8">
+						<label class="sr-only" for="domain">Domain:</label>
+						<input class="form-control" type="text" id="domain" placeholder="example.com" />
+					</div>
+					<div class="col-lg-4">
+						<button class="btn btn-primary" type="submit" style="width: 100%">Check</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div id="result" class="container"></div>
+		<script src="assets/js/jquery.js"></script>
+		<script src="assets/js/bootstrap.js"></script>
+		<script src="http://localhost:81/socket.io/socket.io.js"></script>
+		<script>
+			'use strict';
 
-<form name=domainInput onSubmit="testDomain(); return false">
-  <input type=textbox name=domain>
-  <input type=submit value=Submit>
-</form>
+			var socket				= io.connect('http://localhost:81');
+			var checking			= $('<div class="alert alert-info"><i class="icon-repeat icon-spin"></i> Checking...</div>');
+			var resultSuccess		= $('<div class="alert alert-success"><strong>Hooray!</strong> It\'s up!</div>')
+			var resultFail			= $('<div class="alert alert-danger"><strong>Arsebiscuits!</strong> It\'s down!</div>')
+
+			function testDomain() {
+				$('#result').fadeOut('fast', function() {
+					$('#result').html(checking).fadeIn('fast');
+					var domain = $('#domain').val();
+					socket.emit('domainSubmit', {'domainName': domain});
+				});
+			}
+
+			function processResult(success) {
+				$('#result').fadeOut('fast', function() {
+					$('#result').html((success ? resultSuccess : resultFail)).fadeIn('fast');
+				});
+			}
+
+			socket.on('result', function(data) {
+				if(data.errorCode) {
+					processResult(false);
+				}
+				else {
+					processResult((data.statusCode == 200 || 301));
+				}
+			});
+		</script>
+	</body>
+</html>

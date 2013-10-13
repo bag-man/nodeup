@@ -14,6 +14,8 @@ app.listen(80);
 //Initialise the array of clients
 var clients = [];
 
+
+
 //Sockets
 io.sockets.on('connection', function (socket) {
 
@@ -21,11 +23,16 @@ io.sockets.on('connection', function (socket) {
   clients.push(socket);
   console.log("Client connected");
 
-  //Return codes to client on submission
+  //Return codes to client on submission and keep refreshing
   socket.on('domainSubmit', function(data) {
-    getStatusCode(data.domainName, function(statusCode, errorCode) {
-        socket.emit('result', {'errorCode': errorCode, 'status': statusCode});
-    });
+    setInterval(function (){
+      for(i=0;i < clients.length;i++) {
+	var socket = clients[i];
+	getStatusCode(data.domainName, function(statusCode, errorCode) {
+	    socket.emit('result', {'errorCode': errorCode, 'status': statusCode});
+	});
+      } 
+    }, 5000);
   });
 
   //Remove client from array on disconnect

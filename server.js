@@ -33,6 +33,10 @@ io.sockets.on('connection', function (socket) {
     socket.on('domainSubmit', function(data) {
       setInterval(function (){
 	getStatusCode(data.domainName, function(statusCode, errorCode) {
+            //I need to determine if the CODE is UP or DOWN here. Gulp.
+	    //Also need to account for redirects so if it is a 301 make sure the thing it is redirecting to is up. 
+
+
 	    socket.emit('result', {'errorCode': errorCode, 'status': statusCode});
 	});
       }, 5000);

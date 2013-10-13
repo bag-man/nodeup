@@ -78,7 +78,7 @@
 				testDomain($('#domain').val());
 			});
 
-			if(window.location.pathname.length) {
+			if(window.location.pathname.substr(1).length) {
 				var path		= window.location.pathname.substr(1).split('/');
 				console.log(path);
 				$('#domain').val(path[0])

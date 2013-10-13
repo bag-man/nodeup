@@ -1,5 +1,5 @@
 Accept input from URL
-Test server every 5 seconds and redirect on success (Same as isupChecker script)
+Redirect on success (Same as isupChecker script)
 Validate URL input (At the moment I add http:// on the server side. Plus we should strip out just the domain and use that.
 Work on HTTP status codes
 Buy domain

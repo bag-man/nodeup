@@ -15,8 +15,6 @@ app.listen(80);
 //Initialise the array of clients
 var clients = [];
 
-
-
 //Sockets
 io.sockets.on('connection', function (socket) {
 

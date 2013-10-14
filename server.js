@@ -67,6 +67,6 @@ function upFinder(code) {
   if(code >= 200 && code <= 203) {
     return true;
   }
-  //Weird bug that means it displays down then up might be caused by this
+  //Weird bug that means it displays down then up might be caused by this... Maybe.
   return false;
 }

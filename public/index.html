@@ -74,6 +74,7 @@
 
 			//I've changed this to deal with the new data emit
 			socket.on('result', function(data) {
+			    console.log("Recieved data");
 			    processResult(data.up);
 			});
 

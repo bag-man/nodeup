@@ -21,37 +21,34 @@ app.listen(80);
 var clients = [];
 var handler;
 
-//Sockets
+//Sockets connect and disconnect
 io.sockets.on('connection', function (socket) {
 
   //Add new client to array
   clients.push(socket);
   console.log("Client connected");
 
-  //Return codes to client on submission and keep refreshing
-  for(i=0;i < clients.length;i++) {
-    var socket = clients[i];
-    socket.on('domainSubmit', function(data) {
-      var check		= function() {
-		  getStatusCode(data.domainName, function(statusCode, errorCode) {
-			  if(statusCode == null) {
-				  var up = false;
-			  } else {
-				  var up = upFinder(statusCode);
-			  }
-			  socket.emit('result', {'up': up });
-		  });
-	  }
-	  check();
-      handler = setInterval(check, 5000);
-    });
-  }
-
   //Remove client from array on disconnect
   socket.on('disconnect', function() {
     clients.splice(clients.indexOf(socket), 1);
     clearInterval(handler);
     console.log("Client disconnected");
+  });
+
+  //Return codes to client on submission and keep refreshing
+  socket.on('domainSubmit', function(data) {
+    var check = function() {
+      getStatusCode(data.domainName, function(statusCode, errorCode) {
+	if(statusCode == null) {
+	  var up = false;
+	} else {
+	  var up = upFinder(statusCode);
+	}
+	socket.emit('result', {'up': up });
+      });
+    }
+    check();
+    handler = setInterval(check, 5000);
   });
 });
 

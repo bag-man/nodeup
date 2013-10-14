@@ -1,3 +1,4 @@
+Fix new domain bug
 Redirect on success (Same as isupChecker script)
 Validate URL input (At the moment I add http:// on the server side. Plus we should strip out just the domain and use that.
 Buy domain

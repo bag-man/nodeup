@@ -33,11 +33,12 @@ io.sockets.on('connection', function (socket) {
     socket.on('domainSubmit', function(data) {
       setInterval(function (){
 	getStatusCode(data.domainName, function(statusCode, errorCode) {
-	    if(statusCode != null) {
-              var up = upFinder(statusCode); 
-            } else {
+	    if(statusCode == null) {
               var up = false;
+            } else {
+              var up = upFinder(statusCode); 
             }	      
+	    console.log(up); //Here is the problem 
 	    socket.emit('result', {'up': up }); //I think I have updated the client correctly, but I also may not have.
 	});
       }, 5000);

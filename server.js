@@ -43,10 +43,16 @@ io.sockets.on('connection', function (socket)
   //Return codes to client on submission and keep refreshing
   socket.on('domainSubmit', function(data)
   {
-    if(clients.indexOf(socket))
+
+
+    //When a new client connects the previous clients socket is killed. I belive
+    if(data.submits == 1 )
     {
-      clearInterval(handler)
+      clearInterval(handler);
+      clients.splice(clients.indexOf(socket), 1);
+      socket.emit('resetSubmits', {'reset': true});
     }
+
     var check = function()
     {
       getStatusCode(data.domainName, function(statusCode, errorCode)
@@ -61,6 +67,7 @@ io.sockets.on('connection', function (socket)
         socket.emit('result', {'up': up });
       });
     };
+
     check();
     handler = setInterval(check, 5000);
   });

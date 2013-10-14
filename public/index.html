@@ -51,13 +51,14 @@
 			var checking			= $('<div class="alert alert-info"><i class="icon-repeat icon-spin"></i> Checking...</div>');
 			var resultSuccess		= $('<div class="alert alert-success"><strong>Hooray!</strong> It\'s up!</div>')
 			var resultFail			= $('<div class="alert alert-danger"><strong>Arsebiscuits!</strong> It\'s down!</div>')
-			var result				= null;
+			var result				= null
+			var submitCount 		= 0;
 
 			function testDomain(domain) {
 				result			= null;
 				$('#result').fadeOut('fast', function() {
 					$('#result').html(checking).fadeIn('fast');
-					socket.emit('domainSubmit', {'domainName': domain});
+					socket.emit('domainSubmit', {'domainName': domain, 'submits': submitCount});
 				});
 			}
 
@@ -72,11 +73,16 @@
 				//If previousResult == false && curentResult == true, alert("Website is back up, press OK to continue");
 			}
 
+			socket.on('resetSubmits', function(data) {
+                          submitCount = 0;
+                        });
+
 			socket.on('result', function(data) {
 			    processResult(data.up);
 			});
 
 			$('#domainInput').submit(function(){
+                                submitCount++;
 				testDomain($('#domain').val());
 				return false;
 			});

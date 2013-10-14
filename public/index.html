@@ -69,6 +69,7 @@
 				$('#result').fadeOut('fast', function() {
 					$('#result').html((success ? resultSuccess : resultFail)).fadeIn('fast');
 				});
+				//If previousResult == false && curentResult == true, alert("Website is back up, press OK to continue");
 			}
 
 			socket.on('result', function(data) {

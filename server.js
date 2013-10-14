@@ -1,7 +1,7 @@
 var io = require('socket.io').listen(81);
 io.set('log level', 1); // reduce logging
 var express = require('express');
-var http = require('http');
+var http = require('follow-redirects').http;
 var app = express();
 
 //Serve the public directory
@@ -33,8 +33,6 @@ io.sockets.on('connection', function (socket) {
     socket.on('domainSubmit', function(data) {
       setInterval(function (){
 	getStatusCode(data.domainName, function(statusCode, errorCode) {
-            //I need to determine if the CODE is UP or DOWN here. Gulp.
-	    //Also need to account for redirects so if it is a 301 make sure the thing it is redirecting to is up. 
 	    if(statusCode != null) {
               var up = upFinder(statusCode); //Obviously need to write that function
             } else {
@@ -66,5 +64,10 @@ function getStatusCode(domain, callback) {
 
 //Test the status code
 function upFinder(code) {
-  return true;
+  //I'm pretty sure these are the only success codes that return a web page
+  if(code >= 200 && code <= 203) {
+    return true;
+  }
+  //Weird bug that means it displays down then up might be caused by this
+  return false;
 }

@@ -29,7 +29,7 @@
 	<body>
 		<div id="main" class="container" style="max-width: 750px">
 			<div class="row">
-				<form class="form-inline" id="domainInput" onSubmit="testDomain(); return false">
+				<form class="form-inline" id="domainInput">
 					<div class="form-group col-lg-8">
 						<label class="sr-only" for="domain">Domain:</label>
 						<input class="form-control" type="text" id="domain" placeholder="example.com" />
@@ -74,12 +74,13 @@
 
 			//I've changed this to deal with the new data emit
 			socket.on('result', function(data) {
-			    console.log("Recieved data");
+			    console.log(data.up);
 			    processResult(data.up);
 			});
 
 			$('#domainInput').submit(function(){
 				testDomain($('#domain').val());
+				return false;
 			});
 
 			if(window.location.pathname.substr(1).length) {

@@ -34,12 +34,11 @@ io.sockets.on('connection', function (socket) {
       setInterval(function (){
 	getStatusCode(data.domainName, function(statusCode, errorCode) {
 	    if(statusCode != null) {
-              var up = upFinder(statusCode); //Obviously need to write that function
+              var up = upFinder(statusCode); 
             } else {
               var up = false;
             }	      
-
-	    socket.emit('result', {'errorCode': errorCode, 'status': statusCode}); //And update this to accomodate a boolean
+	    socket.emit('result', {'up': up }); //I think I have updated the client correctly, but I also may not have.
 	});
       }, 5000);
     });

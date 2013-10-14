@@ -59,19 +59,16 @@
 				});
 			}
 
+			//You might want to check this is still all okay
 			function processResult(success) {
 				$('#result').fadeOut('fast', function() {
 					$('#result').html((success ? resultSuccess : resultFail)).fadeIn('fast');
 				});
 			}
 
+			//I've changed this to deal with the new data emit
 			socket.on('result', function(data) {
-				if(data.errorCode) {
-					processResult(false);
-				}
-				else {
-					processResult((data.statusCode == 200 || 301));
-				}
+			    processResult(data.up);
 			});
 
 			$('#domainInput').submit(function(){

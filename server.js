@@ -31,6 +31,7 @@ io.sockets.on('connection', function (socket) {
   for(i=0;i < clients.length;i++) {
     var socket = clients[i];
     socket.on('domainSubmit', function(data) {
+    console.log("Does this code run twice?"); //Yes it does.
       setInterval(function (){
 	getStatusCode(data.domainName, function(statusCode, errorCode) {
 	    if(statusCode == null) {
@@ -38,8 +39,7 @@ io.sockets.on('connection', function (socket) {
             } else {
               var up = upFinder(statusCode); 
             }	      
-	    console.log(up); //Here is the problem 
-	    socket.emit('result', {'up': up }); //I think I have updated the client correctly, but I also may not have.
+	    socket.emit('result', {'up': up }); 
 	});
       }, 5000);
     });

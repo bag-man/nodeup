@@ -39,16 +39,19 @@ io.sockets.on('connection', function (socket) {
 
   //Return codes to client on submission and keep refreshing
   socket.on('domainSubmit', function(data) {
-    var check = function() {
-      getStatusCode(data.domainName, function(statusCode, errorCode) {
-	if(statusCode == null) {
-	  var up = false;
-	} else {
-	  var up = upFinder(statusCode);
+    if(clients.indexOf(socket)) {
+	  clearInterval(handler);
 	}
-	socket.emit('result', {'up': up });
+	var check = function() {
+      getStatusCode(data.domainName, function(statusCode, errorCode) {
+		if(statusCode == null) {
+		  var up = false;
+		} else {
+		  var up = upFinder(statusCode);
+		}
+		socket.emit('result', {'up': up });
       });
-    }
+    };
     check();
     handler = setInterval(check, 5000);
   });

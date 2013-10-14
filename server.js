@@ -1,6 +1,7 @@
 //Require modules
-var app = require('express')();
+
 var express = require('express'); //I am requiring this twice which I don't like. I can't see a way round :/
+var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 io.set('log level', 1); // reduce logging

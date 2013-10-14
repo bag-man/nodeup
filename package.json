@@ -2,9 +2,14 @@
 	"name": "nodeup",
 	"description": "Node.JS-based website monitoring.",
 	"version": "0.0.1",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/bag-man/nodeup.git"
+	},
 	"dependencies": {
 		"express": "3.4.x",
-		"socket.io": "0.9.x"
+		"socket.io": "0.9.x",
+        "follow-redirects": "0.0.x"
 	},
 	"scripts": {
 		"start": "node server.js"

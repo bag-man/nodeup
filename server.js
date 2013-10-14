@@ -64,23 +64,8 @@ function getStatusCode(domain, callback) {
 
 //Test the status code
 function upFinder(code) {
-  //I'm pretty sure these are the only success codes that return a web page
   if(code >= 200 && code <= 203) {
     return true;
   }
-  //Weird bug that means it displays down then up might be caused by this... Maybe.
   return false;
-}
-
-//I know this is bad and dirty and I apologise but please forgive me
-//Instant-ish results instead of waiting for 5 seconds
-function testDomain(data, socket) {
-  getStatusCode(data.domainName, function(statusCode, errorCode) {
-      if(statusCode == null) {
-	var up = false;
-      } else {
-	var up = upFinder(statusCode); 
-      }	      
-      socket.emit('result', {'up': up }); 
-  });
 }

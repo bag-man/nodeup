@@ -32,8 +32,8 @@ io.sockets.on('connection', function (socket) {
   for(i=0;i < clients.length;i++) {
     var socket = clients[i];
     socket.on('domainSubmit', function(data) {
-    console.log("Does this code run twice?"); //Yes it does.
-    handler = setInterval(function (){
+      testDomain(data, socket); //For instant result
+      handler = setInterval(function (){
 	getStatusCode(data.domainName, function(statusCode, errorCode) {
 	    if(statusCode == null) {
               var up = false;
@@ -42,7 +42,6 @@ io.sockets.on('connection', function (socket) {
             }	      
 	    socket.emit('result', {'up': up }); 
 	});
-	console.log("running");
       }, 5000);
     });
   }
@@ -73,4 +72,17 @@ function upFinder(code) {
   }
   //Weird bug that means it displays down then up might be caused by this... Maybe.
   return false;
+}
+
+//I know this is bad and dirty and I apologise but please forgive me
+//Instant-ish results instead of waiting for 5 seconds
+function testDomain(data, socket) {
+  getStatusCode(data.domainName, function(statusCode, errorCode) {
+      if(statusCode == null) {
+	var up = false;
+      } else {
+	var up = upFinder(statusCode); 
+      }	      
+      socket.emit('result', {'up': up }); 
+  });
 }

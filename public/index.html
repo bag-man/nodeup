@@ -51,8 +51,10 @@
 			var checking			= $('<div class="alert alert-info"><i class="icon-repeat icon-spin"></i> Checking...</div>');
 			var resultSuccess		= $('<div class="alert alert-success"><strong>Hooray!</strong> It\'s up!</div>')
 			var resultFail			= $('<div class="alert alert-danger"><strong>Arsebiscuits!</strong> It\'s down!</div>')
+			var result				= null;
 
 			function testDomain(domain) {
+				result			= null;
 				$('#result').fadeOut('fast', function() {
 					$('#result').html(checking).fadeIn('fast');
 					socket.emit('domainSubmit', {'domainName': domain});
@@ -61,6 +63,10 @@
 
 			//You might want to check this is still all okay
 			function processResult(success) {
+				if(result == success) {
+					return;
+				}
+				result		= success;
 				$('#result').fadeOut('fast', function() {
 					$('#result').html((success ? resultSuccess : resultFail)).fadeIn('fast');
 				});

@@ -17,8 +17,9 @@ app.get('/:domain', function(req, res){
 //On port 80
 app.listen(80); 
  
-//Initialise the array of clients
+//Initialise the array of clients and the loop handler
 var clients = [];
+var handler;
 
 //Sockets
 io.sockets.on('connection', function (socket) {
@@ -32,7 +33,7 @@ io.sockets.on('connection', function (socket) {
     var socket = clients[i];
     socket.on('domainSubmit', function(data) {
     console.log("Does this code run twice?"); //Yes it does.
-      setInterval(function (){
+    handler = setInterval(function (){
 	getStatusCode(data.domainName, function(statusCode, errorCode) {
 	    if(statusCode == null) {
               var up = false;
@@ -41,6 +42,7 @@ io.sockets.on('connection', function (socket) {
             }	      
 	    socket.emit('result', {'up': up }); 
 	});
+	console.log("running");
       }, 5000);
     });
   }
@@ -48,6 +50,7 @@ io.sockets.on('connection', function (socket) {
   //Remove client from array on disconnect
   socket.on('disconnect', function() {
     clients.splice(clients.indexOf(socket), 1);
+    clearInterval(handler);
     console.log("Client disconnected");
   });
 });

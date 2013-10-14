@@ -1,8 +1,13 @@
-var io = require('socket.io').listen(81);
+//Require modules
+var app = require('express')();
+var express = require('express'); //I am requiring this twice which I don't like. I can't see a way round :/
+var server = require('http').createServer(app);
+var io = require('socket.io').listen(server);
 io.set('log level', 1); // reduce logging
-var express = require('express');
 var http = require('follow-redirects').http;
-var app = express();
+
+//Start server
+server.listen(80);
 
 //Serve the public directory
 app.configure(function () {
@@ -14,9 +19,6 @@ app.get('/:domain', function(req, res){
   res.sendfile(__dirname + '/public/index.html');
 });
 
-//On port 80
-app.listen(80); 
- 
 //Initialise the array of clients and the loop handler
 var clients = [];
 var handler;

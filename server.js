@@ -43,14 +43,12 @@ io.sockets.on('connection', function (socket)
   //Return codes to client on submission and keep refreshing
   socket.on('domainSubmit', function(data)
   {
-
-
-    //When a new client connects the previous clients socket is killed. I belive
-    if(data.submits == 1 )
+    //It is better, but still not right dammit
+    if(data.submits == 2 )
     {
       clearInterval(handler);
-      clients.splice(clients.indexOf(socket), 1);
       socket.emit('resetSubmits', {'reset': true});
+      console.log("A user has submitted twice");
     }
 
     var check = function()

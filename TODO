@@ -1,4 +1,4 @@
-New domains now work, however multiple clients don't work. A new client connects and kills the previous client.
+It works nearly. Try changing a domain in one client, then the other. That works fine. Now try doing it in the original client. 
 
 Remove "Checking" since now we don't have to wait for the setInterval
 

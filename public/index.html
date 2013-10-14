@@ -61,7 +61,6 @@
 				});
 			}
 
-			//You might want to check this is still all okay
 			function processResult(success) {
 				if(result == success) {
 					return;
@@ -72,9 +71,7 @@
 				});
 			}
 
-			//I've changed this to deal with the new data emit
 			socket.on('result', function(data) {
-			    console.log(data.up);
 			    processResult(data.up);
 			});
 

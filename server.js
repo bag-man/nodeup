@@ -32,17 +32,18 @@ io.sockets.on('connection', function (socket) {
   for(i=0;i < clients.length;i++) {
     var socket = clients[i];
     socket.on('domainSubmit', function(data) {
-      testDomain(data, socket); //For instant result
-      handler = setInterval(function (){
-	getStatusCode(data.domainName, function(statusCode, errorCode) {
-	    if(statusCode == null) {
-              var up = false;
-            } else {
-              var up = upFinder(statusCode); 
-            }	      
-	    socket.emit('result', {'up': up }); 
-	});
-      }, 5000);
+      var check		= function() {
+		  getStatusCode(data.domainName, function(statusCode, errorCode) {
+			  if(statusCode == null) {
+				  var up = false;
+			  } else {
+				  var up = upFinder(statusCode);
+			  }
+			  socket.emit('result', {'up': up });
+		  });
+	  }
+	  check();
+      handler = setInterval(check, 5000);
     });
   }
 

@@ -43,6 +43,11 @@ io.sockets.on('connection', function (socket)
   //Return codes to client on submission and keep refreshing
   socket.on('domainSubmit', function(data)
   {
+    //I think the problem is that there is one handler for every user
+    //So if we make an array of handlers for the different users.... 
+    var handlers = [];
+    //I haven't done the rest. Bed time!
+
     //It is better, but still not right dammit
     if(data.submits == 2 )
     {

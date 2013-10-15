@@ -23,6 +23,7 @@ app.get('/:domain', function(req, res)
 
 //Initialise the array of clients and the loop handler
 var clients = [];
+var handlers = [];
 var handler;
 
 //Sockets connect and disconnect
@@ -43,36 +44,37 @@ io.sockets.on('connection', function (socket)
   //Return codes to client on submission and keep refreshing
   socket.on('domainSubmit', function(data)
   {
-    //I think the problem is that there is one handler for every user
-    //So if we make an array of handlers for the different users.... 
-    var handlers = [];
-    //I haven't done the rest. Bed time!
-
-    //It is better, but still not right dammit
     if(data.submits == 2 )
     {
-      clearInterval(handler);
+      for(i=0; i < handlers.length; i++)
+      {
+	if(handlers[i] == data.handler)
+	{
+	  clearInterval(data.handler);
+	}
+      }
       socket.emit('resetSubmits', {'reset': true});
-      console.log("A user has submitted twice");
     }
 
     var check = function()
     {
       getStatusCode(data.domainName, function(statusCode, errorCode)
       {
-        if(statusCode == null)
-        {
- 	  var up = false;
-        } else
-        {
-  	  var up = upFinder(statusCode);
-        }
-        socket.emit('result', {'up': up });
+	if(statusCode == null)
+	{
+	  var up = false;
+	} else
+	{
+	  var up = upFinder(statusCode);
+	}
+	socket.emit('result', {'up': up });
       });
     };
 
     check();
     handler = setInterval(check, 5000);
+    handlers.push(handler);
+    socket.emit('giveHandler', {'handler': handler}); //handler can't be JSON'ifyed. This *might* work otherwise
   });
 });
 
@@ -88,6 +90,7 @@ function getStatusCode(domain, callback)
     callback(null, e);
   });
 }
+
 
 //Test the status code
 function upFinder(code)

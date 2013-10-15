@@ -53,12 +53,13 @@
 			var resultFail			= $('<div class="alert alert-danger"><strong>Arsebiscuits!</strong> It\'s down!</div>')
 			var result				= null
 			var submitCount 		= 0;
+			var handler;
 
 			function testDomain(domain) {
 				result			= null;
 				$('#result').fadeOut('fast', function() {
 					$('#result').html(checking).fadeIn('fast');
-					socket.emit('domainSubmit', {'domainName': domain, 'submits': submitCount});
+					socket.emit('domainSubmit', {'domainName': domain, 'submits': submitCount, 'handler': handler});
 				});
 			}
 
@@ -75,6 +76,10 @@
 
 			socket.on('resetSubmits', function(data) {
                           submitCount = 0;
+                        });
+
+			socket.on('giveHandler', function(data) {
+                          handler = data.handler;
                         });
 
 			socket.on('result', function(data) {

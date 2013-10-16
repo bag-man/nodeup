@@ -21,43 +21,47 @@ app.get('/:domain', function(req, res)
   res.sendfile(__dirname + '/public/index.html');
 });
 
-//Initialise the array of clients and the loop handler
+//Create 2D array
 var clients = [];
-var handlers = [];
-var handler;
+var client;
 
 //Sockets connect and disconnect
 io.sockets.on('connection', function (socket)
 {
+
   //Add new client to array
+  socket.emit('id', {'id': socket.id});
   clients.push(socket);
-  console.log("Client connected");
+  console.log(socket.id + " connected.");
   
   //Remove client from array on disconnect
   socket.on('disconnect', function()
   {
+    clearInterval(clients[client].handler);
     clients.splice(clients.indexOf(socket), 1);
-    clearInterval(handler);
-    console.log("Client disconnected");
+    console.log(socket.id + " disconnected.");
   });
   
   //Return codes to client on submission and keep refreshing
   socket.on('domainSubmit', function(data)
   {
-    if(data.submits == 2 )
+    for(i=0; i<clients.length; i++)
     {
-      for(i=0; i < handlers.length; i++)
+      if(clients[i].id == data.id)
       {
-	if(handlers[i] == data.handler)
+        client = i;
+
+        if(clients[i].handler)
 	{
-	  clearInterval(data.handler);
+	  console.log("Client " + clients[i].id + " already has a handler. Killing old one.");
+	  clearInterval(clients[i].handler);
 	}
       }
-      socket.emit('resetSubmits', {'reset': true});
     }
 
     var check = function()
     {
+      console.log("Client " + clients[client].id + " is running " + data.domainName);
       getStatusCode(data.domainName, function(statusCode, errorCode)
       {
 	if(statusCode == null)
@@ -72,9 +76,8 @@ io.sockets.on('connection', function (socket)
     };
 
     check();
-    handler = setInterval(check, 5000);
-    handlers.push(handler);
-    socket.emit('giveHandler', {'handler': handler}); //handler can't be JSON'ifyed. This *might* work otherwise
+    var handler = setInterval(check, 5000);
+    clients[client].handler = handler;
   });
 });
 

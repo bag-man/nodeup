@@ -48,18 +48,20 @@
 			'use strict';
 
 			var socket				= io.connect('/'); 
+			var sessionID;
+			socket.on('id', function(data) {
+			   sessionID = data.id;
+			});
 			var checking			= $('<div class="alert alert-info"><i class="icon-repeat icon-spin"></i> Checking...</div>');
 			var resultSuccess		= $('<div class="alert alert-success"><strong>Hooray!</strong> It\'s up!</div>')
 			var resultFail			= $('<div class="alert alert-danger"><strong>Arsebiscuits!</strong> It\'s down!</div>')
 			var result				= null
-			var submitCount 		= 0;
-			var handler;
 
 			function testDomain(domain) {
 				result			= null;
 				$('#result').fadeOut('fast', function() {
 					$('#result').html(checking).fadeIn('fast');
-					socket.emit('domainSubmit', {'domainName': domain, 'submits': submitCount, 'handler': handler});
+					socket.emit('domainSubmit', {'domainName': domain, 'id': sessionID});
 				});
 			}
 
@@ -74,20 +76,11 @@
 				//If previousResult == false && curentResult == true, alert("Website is back up, press OK to continue");
 			}
 
-			socket.on('resetSubmits', function(data) {
-                          submitCount = 0;
-                        });
-
-			socket.on('giveHandler', function(data) {
-                          handler = data.handler;
-                        });
-
 			socket.on('result', function(data) {
 			    processResult(data.up);
 			});
 
 			$('#domainInput').submit(function(){
-                                submitCount++;
 				testDomain($('#domain').val());
 				return false;
 			});

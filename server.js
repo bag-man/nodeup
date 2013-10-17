@@ -21,13 +21,12 @@ app.get('/:domain', function(req, res)
   res.sendfile(__dirname + '/public/index.html');
 });
 
-//Create 2D array
+//Create clients array
 var clients = [];
 
 //Sockets connect and disconnect
 io.sockets.on('connection', function (socket)
 {
-
   //Create client var
   var client;
 

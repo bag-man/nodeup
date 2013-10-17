@@ -38,7 +38,7 @@ io.sockets.on('connection', function (socket)
   //Remove client from array on disconnect
   socket.on('disconnect', function()
   {
-    if(typeof client !== 'undefined') 
+    if(typeof client !== 'undefined') //This doesn't work quite right
     {
       clearInterval(clients[client].handler);
     }

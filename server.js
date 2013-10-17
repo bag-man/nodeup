@@ -23,11 +23,13 @@ app.get('/:domain', function(req, res)
 
 //Create 2D array
 var clients = [];
-var client;
 
 //Sockets connect and disconnect
 io.sockets.on('connection', function (socket)
 {
+
+  //Create client var
+  var client;
 
   //Add new client to array
   socket.emit('id', {'id': socket.id});
@@ -49,7 +51,7 @@ io.sockets.on('connection', function (socket)
     {
       if(clients[i].id == data.id)
       {
-        client = i; //Maybe this is the problem
+        client = i; 
 
         if(clients[i].handler)
 	{
@@ -59,6 +61,7 @@ io.sockets.on('connection', function (socket)
       }
     }
 
+    //Function for looping
     var check = function()
     {
       console.log("Client " + clients[client].id + " is running " + data.domainName);

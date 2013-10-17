@@ -1,12 +1,12 @@
 //Require modules
-var express 				= require('express');
-		http 						= require('http'),
-		socketIo      	= require('socket.io'),
-		followRedirects = require('follow-redirects');
+var express         = require('express'),
+    http            = require('http'),
+    socketIo        = require('socket.io'),
+    followRedirects = require('follow-redirects');
 
-var app 	 = express(),
-		server = http.createServer(app),
-		io 		 = socketIo.listen(server);
+var app    = express(),
+    server = http.createServer(app),
+    io     = socketIo.listen(server);
 		
 // reduce logging
 io.set('log level', 1); 
@@ -38,9 +38,9 @@ io.sockets.on('connection', function (socket)
   
   //Remove client from array on disconnect
   socket.on('disconnect', function () {
-  	if (handler !== null) {
-  		clearInterval(handler);	
-  	} 
+    if (interval !== null) {
+      clearInterval(interval);	
+    } 
     console.log(socket.id, "disconnected.");
   });
   
@@ -53,19 +53,19 @@ io.sockets.on('connection', function (socket)
       console.log("Client", socket.id, "is running", data.domainName);
       getStatusCode(data.domainName, function(statusCode, errorCode)
       {
-				var up = (statusCode == null) ? upFinder(statusCode) : false;
-				socket.emit('result', { 'up': up });
+        var up = (statusCode == null) ? upFinder(statusCode) : false;
+        socket.emit('result', { 'up': up });
       });
     };
     
     //Clear any existing intervals
-		if (handler !== null) {
-	  	console.log("Client", socket.id, "already has a handler. Killing old one.");
-	  	clearInterval(handler);
-		}
-
+    if (interval !== null) {
+      console.log("Client", socket.id, "already has a handler. Killing old one.");
+      clearInterval(interval);
+    }
+    
     check();
-    handler = setInterval(check, 5000);
+    interval = setInterval(check, 5000);
   });
 });
 

@@ -36,7 +36,7 @@ io.sockets.on('connection', function (socket)
   socket.emit('id', { 'id' : socket.id });
   console.log(socket.id, "connected.");
   
-  //Remove client from array on disconnect
+  //Stop refreshing when the client disconnects
   socket.on('disconnect', function () {
     if (interval !== null) {
       clearInterval(interval);	
@@ -54,7 +54,7 @@ io.sockets.on('connection', function (socket)
       getStatusCode(data.domainName, function(statusCode, errorCode)
       {
         var up = (statusCode == null) ? upFinder(statusCode) : false;
-        socket.emit('result', { 'up': up });
+        socket.emit('result', { 'up' : up });
       });
     };
     

@@ -57,7 +57,7 @@ io.sockets.on('connection', function (socket)
 
         if(clients[i].handler)
 	{
-	  console.log("Client " + clients[i].id + " already has a handler. Killing old one.");
+	  //console.log("Client " + clients[i].id + " already has a handler. Killing old one.");
 	  clearInterval(clients[i].handler);
 	}
       }
@@ -66,7 +66,6 @@ io.sockets.on('connection', function (socket)
     //Function for looping
     var check = function()
     {
-      console.log("Client " + clients[client].id + " is running " + data.domainName);
       getStatusCode(data.domainName, function(statusCode, errorCode)
       {
 	if(statusCode == null)

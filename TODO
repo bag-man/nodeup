@@ -1,9 +1,9 @@
-It works nearly. Try changing a domain in one client, then the other. That works fine. Now try doing it in the original client. 
-
-Remove "Checking" since now we don't have to wait for the setInterval
+Debug why multiple clients can't scan the same domain
 
 Redirect on success (Same as isupChecker script)
 
 Validate URL input (At the moment I add http:// on the server side. Plus we should strip out just the domain and use that.
 
+Pick favicon :P
+    
 Buy domain

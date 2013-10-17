@@ -49,7 +49,7 @@ io.sockets.on('connection', function (socket)
     {
       if(clients[i].id == data.id)
       {
-        client = i;
+        client = i; //Maybe this is the problem
 
         if(clients[i].handler)
 	{
@@ -76,8 +76,7 @@ io.sockets.on('connection', function (socket)
     };
 
     check();
-    var handler = setInterval(check, 5000);
-    clients[client].handler = handler;
+    clients[client].handler = setInterval(check, 5000);
   });
 });
 

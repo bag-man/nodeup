@@ -56,8 +56,10 @@
 			var resultSuccess		= $('<div class="alert alert-success"><strong>Hooray!</strong> It\'s up!</div>')
 			var resultFail			= $('<div class="alert alert-danger"><strong>Arsebiscuits!</strong> It\'s down!</div>')
 			var result				= null
+			var domainSubmitted;
 
 			function testDomain(domain) {
+ 				domainSubmitted = domain;
 				result			= null;
 				$('#result').fadeOut('fast', function() {
 					$('#result').html(checking).fadeIn('fast');
@@ -73,10 +75,19 @@
 				$('#result').fadeOut('fast', function() {
 					$('#result').html((success ? resultSuccess : resultFail)).fadeIn('fast');
 				});
-				//If previousResult == false && curentResult == true, alert("Website is back up, press OK to continue");
 			}
 
 			socket.on('result', function(data) {
+			    if(result != data.up && result != null) 
+			    {
+			      if(data.up == true) 
+			      {
+			        alert("The website is back up. Click OK to continue.");
+				window.location.href = "http://" + domainSubmitted;
+			      } else {
+			        alert("The website has gone down! :(");
+			      }
+			    }
 			    processResult(data.up);
 			});
 
@@ -93,4 +104,5 @@
 			}
 		</script>
 	</body>
+
 </html>

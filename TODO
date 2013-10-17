@@ -1,9 +1,9 @@
-Debug why multiple clients can't scan the same domain
-
-Redirect on success (Same as isupChecker script)
-
 Validate URL input (At the moment I add http:// on the server side. Plus we should strip out just the domain and use that.
 
 Pick favicon :P
+
+Clean up alert/redirect
+
+Testing shit way more thoroughly
     
 Buy domain

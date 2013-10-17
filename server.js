@@ -4,6 +4,7 @@ var express         = require('express'),
     socketIo        = require('socket.io'),
     followRedirects = require('follow-redirects');
 
+//Setup the server
 var app    = express(),
     server = http.createServer(app),
     io     = socketIo.listen(server);

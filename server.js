@@ -39,7 +39,10 @@ io.sockets.on('connection', function (socket)
   //Remove client from array on disconnect
   socket.on('disconnect', function()
   {
-    clearInterval(clients[client].handler);
+    if(typeof client !== 'undefined') 
+    {
+      clearInterval(clients[client].handler);
+    }
     clients.splice(clients.indexOf(socket), 1);
     console.log(socket.id + " disconnected.");
   });

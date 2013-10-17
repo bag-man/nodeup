@@ -1,0 +1,17 @@
+
+body {
+  background-image: url('/assets/imgs/background.png');
+}
+
+.container {
+  max-width: 750px;
+}
+
+#main {
+  margin-top: 15%;
+}
+
+#result {
+  margin-top: 5%;
+  text-align: center;
+}

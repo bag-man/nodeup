@@ -80,7 +80,10 @@ io.sockets.on('connection', function (socket)
     };
 
     check();
-    clients[client].handler = setInterval(check, 5000);
+    if(typeof client !== 'undefined') //This doesn't work quite right
+    {
+      clients[client].handler = setInterval(check, 5000);
+    }
   });
 });
 

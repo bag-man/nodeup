@@ -1,10 +1,12 @@
 //Require modules
-var express = require('express');
-var app = express();
-var server = require('http').createServer(app);
-var io = require('socket.io').listen(server);
-io.set('log level', 1); // reduce logging
-var http = require('follow-redirects').http;
+var express = require('express'),
+        app = express(),
+     server = require('http').createServer(app),
+         io = require('socket.io').listen(server),
+       http = require('follow-redirects').http;
+
+//Reduce logging
+io.set('log level', 1); 
 
 //Start server
 server.listen(80);
@@ -75,7 +77,7 @@ io.sockets.on('connection', function (socket)
 	{
 	  var up = upFinder(statusCode);
 	}
-	socket.emit('result', {'up': up });
+	socket.emit('result', {'up': up, 'domain': data.domainName});
       });
     };
 

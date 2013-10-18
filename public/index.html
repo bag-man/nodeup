@@ -78,7 +78,7 @@
 			}
 
 			socket.on('result', function(data) {
-			    if(result != data.up && result != null) 
+			    if(domainSubmitted == data.domain && result != data.up && result != null) 
 			    {
 			      if(data.up == true) 
 			      {

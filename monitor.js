@@ -1,4 +1,4 @@
-var http = require('http');
+var http = require('follow-redirects').http;
 
 function upFinder(code)
 {
@@ -9,43 +9,50 @@ function upFinder(code)
   return false;
 }
 
-function getStatusCode(domain, callback)
-{
-  var target = "http://" + domain; //Need to test for http later
-  http.get(target, function(res)
-  {
-    callback(res.statusCode, null);
-  }).on('error', function(e)
-  {
-    callback(null, e);
-  });
-}
-
-function Monitor(domain, client)
+function Monitor(domain)
 {
   //Class constructor
   this.domain = domain;
-  this.client = client;
+  //this.client = client;
 
-  var clients = [];
-  clients.push(client);
+  this.clients = [];
+ // clients.push(client);
 }
 
-Monitor.prototype.addClient = function(client)
+Monitor.prototype.addClient = function(client, callback)
 {
-  clients.push(client);
+  for(var i in this.clients) {
+    if(this.clients[i].id == client) {
+      return;
+    }
+  }
+  this.clients.push({id: client, callback: callback});
+}
+
+Monitor.prototype.removeClient = function(client) {
+  for(var i in this.clients) {
+    if(this.clients[i].id == client) {
+      delete this.clients[client];
+    }
+  }
 }
 
 Monitor.prototype.checkDomain = function()
 {
-  getStatusCode(this.domain, function(statusCode, errorCode)
+  var clients = this.clients;
+  var target = "http://" + this.domain; //Need to test for http later
+  http.get(target, function(res)
   {
-    if(statusCode == null)
-    {
-      up = false;
-    } else
-    {
-      up = upFinder(statusCode);
+    var up = upFinder(res.statusCode);
+    for(var client in clients) {
+      clients[client].callback(up);
+    }
+  }).on('error', function(e)
+  {
+    console.log('Error checking domain: ', e);
+    var up = false;
+    for(var client in clients) {
+      clients[client].callback(up);
     }
   });
   //I want to return up here, but its from a callback of a function so I am usure :/

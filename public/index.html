@@ -24,7 +24,7 @@
 				text-align: 			center;
 			}
 		</style>
-		<title>nodeup</title>
+		<title>NodeUP</title>
 	</head>
 	<body>
 		<div id="main" class="container" style="max-width: 750px">
@@ -68,6 +68,11 @@
 			}
 
 			function processResult(success) {
+			  if(success == true) {
+                            document.title = "It's back!";
+			  } else {
+                            document.title = "It's down :(";
+			  }
 				if(result == success) {
 					return;
 				}

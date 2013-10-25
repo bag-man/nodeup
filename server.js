@@ -28,6 +28,7 @@ io.sockets.on('connection', function (socket) {
   });
   
   socket.on('domainSubmit', function(data) {
+    console.log(data.id + " requested " + data.domain);
     for(i = 0; i < domains.length; i++) {
       domains[i].removeClient(socket.id);
     }

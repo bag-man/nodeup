@@ -42,10 +42,10 @@ Monitor.prototype.checkDomain = function()
     {
       if(statusCode == null)
       {
-	var up = false;
+	      var up = false;
       } else
       {
-	var up = upFinder(statusCode);
+	      var up = upFinder(statusCode);
       }
       //socket.emit('result', {'up': up, 'domain': this.domain});
       return true;

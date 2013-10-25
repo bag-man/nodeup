@@ -47,14 +47,14 @@ io.sockets.on('connection', function (socket)
   {
     if(!domains[data.domain])
     {
-      domains[data.domain] = new Monitor(data.domain, data.id);
+      domains[data.domain] = new monitor(data.domain, socket.id);
 
-      setInterval(domains[data.domain].checkDomain(),5000);
+      setInterval(domains[data.domain].checkDomain,5000);
       //If this is true then 
-      io.clients[data.id].emit('result', {'up': up, 'domain': data.domainName});
+      //socket.emit('result', {'up': up, 'domain': data.domainName});
       //to all clients in the domain object
     } else  {
-      domains[data.domain].addClient(data.id);
+      domains[data.domain].addClient(socket.id);
     }
   });
 });

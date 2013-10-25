@@ -1,4 +1,4 @@
-var http = require('follow-redirects').http;
+var http = require('http');
 
 function upFinder(code)
 {

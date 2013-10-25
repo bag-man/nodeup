@@ -40,7 +40,10 @@ io.sockets.on('connection', function (socket)
     //Remove clients from domains[] objects
     console.log(socket.id + " disconnected.");
     for(var i in domains) {
-      clearInterval(domains[i].handler);
+      if(domains[i].clients.length > 1)
+      {
+	clearInterval(domains[i].handler);
+      }
     }
   });
   

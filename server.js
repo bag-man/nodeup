@@ -42,12 +42,6 @@ io.sockets.on('connection', function (socket)
       domains[i].removeClient(socket.id);
     }
     console.log(socket.id + " disconnected.");
-    for(var i in domains) {
-      if(domains[i].clients.length > 1)
-      {
-	clearInterval(domains[i].handler);
-      }
-    }
   });
   
   //Return codes to client on submission and keep refreshing

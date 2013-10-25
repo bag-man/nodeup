@@ -3,7 +3,6 @@ var express = require('express'),
         app = express(),
      server = require('http').createServer(app),
          io = require('socket.io').listen(server),
-       http = require('follow-redirects').http,
     Monitor = require('./monitor.js');
 
 //Array of objects for each domain
@@ -43,6 +42,12 @@ io.sockets.on('connection', function (socket)
       domains[i].removeClient(socket.id);
     }
     console.log(socket.id + " disconnected.");
+    for(var i in domains) {
+      if(domains[i].clients.length > 1)
+      {
+	clearInterval(domains[i].handler);
+      }
+    }
   });
   
   //Return codes to client on submission and keep refreshing

@@ -3,7 +3,11 @@ var express = require('express'),
         app = express(),
      server = require('http').createServer(app),
          io = require('socket.io').listen(server),
-       http = require('follow-redirects').http;
+       http = require('follow-redirects').http,
+    monitor = require('monitor.js');
+
+//Array of objects for each domain
+var domains = [];
 
 //Reduce logging
 io.set('log level', 1); 
@@ -23,47 +27,33 @@ app.get('/:domain', function(req, res)
   res.sendfile(__dirname + '/public/index.html');
 });
 
-//Create clients array
-var clients = [];
-
 //Sockets connect and disconnect
 io.sockets.on('connection', function (socket)
 {
-  //Create client var
-  var client;
 
   //Add new client to array
   socket.emit('id', {'id': socket.id});
-  clients.push(socket);
   console.log(socket.id + " connected.");
   
   //Remove client from array on disconnect
   socket.on('disconnect', function()
   {
-    if(typeof client !== 'undefined') //This doesn't work quite right
-    {
-      clearInterval(clients[client].handler);
-    }
-    clients.splice(clients.indexOf(socket), 1);
+    //Remove clients from domains[] objects
     console.log(socket.id + " disconnected.");
   });
   
   //Return codes to client on submission and keep refreshing
   socket.on('domainSubmit', function(data)
   {
-    for(i=0; i<clients.length; i++)
+    for(i = 0; i < domains.length; i++)
     {
-      if(clients[i].id == data.id)
+      if(!domains[i].domain) 
       {
-        client = i; 
-
-        if(clients[i].handler)
-	{
-	  //console.log("Client " + clients[i].id + " already has a handler. Killing old one.");
-	  clearInterval(clients[i].handler);
-	}
+	domains.push(new Monitor(data.domain, data.id));
+	var result = domains[i++].checkDomain();
+      } else {
+        domains[i].addClient(data.id);
       }
-    }
 
     //Function for looping
     var check = function()

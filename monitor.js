@@ -1,4 +1,4 @@
-var http = require('http');
+var http = require('follow-redirects').http;
 
 function upFinder(code)
 {
@@ -34,6 +34,9 @@ Monitor.prototype.removeClient = function(client)
       delete this.clients[client];
     }
   }
+  if(!this.clients.length) {
+    delete this.handler;
+  }
 }
 
 Monitor.prototype.start = function()
@@ -52,6 +55,7 @@ Monitor.prototype.checkDomain = function()
   console.log(target);
   http.get(target, function(res)
   {
+    console.log(res.statusCode);
     var up = upFinder(res.statusCode);
     for(var client in clients) {
       clients[client].callback(up);

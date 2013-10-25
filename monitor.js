@@ -29,7 +29,8 @@ Monitor.prototype.addClient = function(client, callback)
   this.clients.push({id: client, callback: callback});
 }
 
-Monitor.prototype.removeClient = function(client) {
+Monitor.prototype.removeClient = function(client)
+{
   for(var i in this.clients) {
     if(this.clients[i].id == client) {
       delete this.clients[client];
@@ -40,7 +41,8 @@ Monitor.prototype.removeClient = function(client) {
 Monitor.prototype.checkDomain = function()
 {
   var clients = this.clients;
-  var target = "http://" + this.domain; //Need to test for http later
+  var target = "http://" + this.domain;
+  console.log(target);
   http.get(target, function(res)
   {
     var up = upFinder(res.statusCode);

@@ -70,4 +70,4 @@ function getStatusCode(domain, callback)
   {
     callback(null, e);
   });
-});
+};

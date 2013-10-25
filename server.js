@@ -48,7 +48,8 @@ io.sockets.on('connection', function (socket)
     if(!domains[data.domain])
     {
       domains[data.domain] = new monitor(data.domain, socket.id);
-      domains[data.domain].handler = setInterval(domains[data.domain].checkDomain, 5000);
+      domains[data.domain].handler = setInterval(domains[data.domain].checkDomain(), 5000);
+      console.log(domains[data.domain].checkDomain());
       //If this is true then 
       //socket.emit('result', {'up': up, 'domain': data.domainName});
       //to all clients in the domain object

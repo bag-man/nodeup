@@ -36,10 +36,8 @@ Monitor.prototype.addClient = function(client)
   clients.push(client);
 }
 
-Monitor.prototype.checkDomain = function()
+Monitor.prototype.checkDomain = function(this.domain, function(statusCode, errorCode)
 {
-  getStatusCode(this.domain, function(statusCode, errorCode)
-  {
     if(statusCode == null)
     {
       up = false;
@@ -47,8 +45,7 @@ Monitor.prototype.checkDomain = function()
     {
       up = upFinder(statusCode);
     }
-  });
-  //I want to return up here, but its from a callback of a function so I am usure :/
-}
+    return up;
+});
 
 module.exports = Monitor;

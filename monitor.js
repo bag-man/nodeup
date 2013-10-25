@@ -1,24 +1,16 @@
 var http = require('follow-redirects').http;
 
-function upFinder(code)
-{
-  if(code >= 200 && code <= 203)
-  {
-    return true;
-  }
-  return false;
+function upFinder(code) {
+  return !!(code >= 200 && code <= 203);
 }
 
-function Monitor(domain)
-{
-  //Class constructor
+function Monitor(domain) {
   this.domain = domain;
   this.clients = [];
   this.handler;
 }
 
-Monitor.prototype.addClient = function(client, callback)
-{
+Monitor.prototype.addClient = function(client, callback) {
   for(var i in this.clients) {
     if(this.clients[i].id == client) {
       return;
@@ -27,8 +19,7 @@ Monitor.prototype.addClient = function(client, callback)
   this.clients.push({id: client, callback: callback});
 }
 
-Monitor.prototype.removeClient = function(client)
-{
+Monitor.prototype.removeClient = function(client) {
   for(var i in this.clients) {
     if(this.clients[i].id == client) {
       this.clients.splice(i, 1);
@@ -39,29 +30,24 @@ Monitor.prototype.removeClient = function(client)
   }
 }
 
-Monitor.prototype.start = function()
-{
+Monitor.prototype.start = function() {
   var parent = this;
   parent.checkDomain();
 }
 
-Monitor.prototype.stop = function()
-{
+Monitor.prototype.stop = function() {
   clearTimeout(this.handler);
 }
 
-Monitor.prototype.checkDomain = function()
-{
+Monitor.prototype.checkDomain = function() {
   var clients = this.clients;
   var target = "http://" + this.domain; // We still need to validate!
-  http.get(target, function(res)
-  {
+  http.get(target, function(res) {
     var up = upFinder(res.statusCode);
     for(var client in clients) {
       clients[client].callback(up);
     }
-  }).on('error', function(e)
-  {
+  }).on('error', function(e) {
     var up = false;
     for(var client in clients) {
       clients[client].callback(up);

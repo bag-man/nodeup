@@ -31,7 +31,7 @@ function Monitor(domain, client)
   clients.push(client);
 }
 
-Monitor.prototype.checkDomain = function(client)
+Monitor.prototype.addClient = function(client)
 {
   clients.push(client);
 }
@@ -47,10 +47,9 @@ Monitor.prototype.checkDomain = function()
       {
 	var up = upFinder(statusCode);
       }
-      socket.emit('result', {'up': up, 'domain': this.domain});
+      //socket.emit('result', {'up': up, 'domain': this.domain});
+      return true;
     });
 }
-
-//var object = new Monitor("google.com", "34384");
 
 module.exports = Monitor;

@@ -30,11 +30,11 @@ app.get('/:domain', function(req, res)
 io.sockets.on('connection', function (socket)
 {
 
-  //Add new client to array
+  //Tell the client its id
   socket.emit('id', {'id': socket.id});
   console.log(socket.id + " connected.");
   
-  //Remove client from array on disconnect
+  //Disconnection
   socket.on('disconnect', function()
   {
     //Remove clients from domains[] objects
@@ -57,9 +57,11 @@ io.sockets.on('connection', function (socket)
       domains[data.domain].start();
     }
 
-    domains[data.domain].addClient(socket.id, function(up){
+    domains[data.domain].addClient(socket.id, function(up)
+    {
       socket.emit('result', {'up': up, 'domain': data.domain});
     });
+
   });
 });
 

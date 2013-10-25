@@ -47,25 +47,21 @@ Monitor.prototype.start = function()
 
 Monitor.prototype.stop = function()
 {
-  //clearInterval(this.handler);
   clearTimeout(this.handler);
 }
 
 Monitor.prototype.checkDomain = function()
 {
   var clients = this.clients;
-  var target = "http://" + this.domain;
-  console.log(target + " requested by " + clients);
+  var target = "http://" + this.domain; // We still need to validate!
   http.get(target, function(res)
   {
-    console.log(res.statusCode);
     var up = upFinder(res.statusCode);
     for(var client in clients) {
       clients[client].callback(up);
     }
   }).on('error', function(e)
   {
-    console.log('Error checking domain: ', e);
     var up = false;
     for(var client in clients) {
       clients[client].callback(up);

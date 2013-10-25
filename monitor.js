@@ -38,18 +38,17 @@ Monitor.prototype.addClient = function(client)
 
 Monitor.prototype.checkDomain = function()
 {
-    getStatusCode(this.domain, function(statusCode, errorCode)
+  getStatusCode(this.domain, function(statusCode, errorCode)
+  {
+    if(statusCode == null)
     {
-      if(statusCode == null)
-      {
-	      var up = false;
-      } else
-      {
-	      var up = upFinder(statusCode);
-      }
-      //socket.emit('result', {'up': up, 'domain': this.domain});
-      return true;
-    });
+      up = false;
+    } else
+    {
+      up = upFinder(statusCode);
+    }
+  });
+  //I want to return up here, but its from a callback of a function so I am usure :/
 }
 
 module.exports = Monitor;

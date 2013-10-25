@@ -4,7 +4,7 @@ var express = require('express'),
      server = require('http').createServer(app),
          io = require('socket.io').listen(server),
        http = require('follow-redirects').http,
-    monitor = require('./monitor.js');
+    Monitor = require('./monitor.js');
 
 //Array of objects for each domain
 var domains = {};
@@ -50,7 +50,7 @@ io.sockets.on('connection', function (socket)
     }
     if(!domains[data.domain])
     {
-      domains[data.domain] = new monitor(data.domain);
+      domains[data.domain] = new Monitor(data.domain);
       domains[data.domain].handler = setInterval(domains[data.domain].checkDomain, 5000);
       domains[data.domain].checkDomain();
     }

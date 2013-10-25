@@ -63,7 +63,7 @@
 				result			= null;
 				$('#result').fadeOut('fast', function() {
 					$('#result').html(checking).fadeIn('fast');
-					socket.emit('domainSubmit', {'domainName': domain, 'id': sessionID});
+					socket.emit('domainSubmit', {'domain': domain, 'id': sessionID});
 				});
 			}
 

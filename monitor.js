@@ -42,6 +42,7 @@ Monitor.prototype.stop = function() {
 Monitor.prototype.checkDomain = function() {
   var clients = this.clients;
   var target = "http://" + this.domain; // We still need to validate!
+
   http.get(target, function(res) {
     var up = upFinder(res.statusCode);
     for(var client in clients) {

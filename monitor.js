@@ -1,3 +1,14 @@
+var http = require('http');
+
+function upFinder(code)
+{
+  if(code >= 200 && code <= 203)
+  {
+    return true;
+  }
+  return false;
+}
+
 function getStatusCode(domain, callback)
 {
   var target = "http://" + domain; //Need to test for http later
@@ -15,11 +26,19 @@ function Monitor(domain, client)
   //Class constructor
   this.domain = domain;
   this.client = client;
+
+  var clients = [];
+  clients.push(client);
+}
+
+Monitor.prototype.checkDomain = function(client)
+{
+  clients.push(client);
 }
 
 Monitor.prototype.checkDomain = function()
 {
-    getStatusCode(data.domainName, function(statusCode, errorCode)
+    getStatusCode(this.domain, function(statusCode, errorCode)
     {
       if(statusCode == null)
       {
@@ -28,11 +47,10 @@ Monitor.prototype.checkDomain = function()
       {
 	var up = upFinder(statusCode);
       }
-      socket.emit('result', {'up': up, 'domain': data.domainName});
+      socket.emit('result', {'up': up, 'domain': this.domain});
     });
 }
 
+//var object = new Monitor("google.com", "34384");
 
-var object = new Monitor("google.com", "34384");
-
-object.checkDomain();
+module.exports = Monitor;

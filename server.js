@@ -48,12 +48,14 @@ io.sockets.on('connection', function (socket)
     for(var i in domains) {
       domains[i].removeClient(socket.id);
     }
+
     if(!domains[data.domain])
     {
       domains[data.domain] = new Monitor(data.domain);
-      domains[data.domain].handler = setInterval(domains[data.domain].checkDomain, 5000);
+      domains[data.domain].handler = setInterval(domains[data.domain].checkDomain(), 5000);
       domains[data.domain].checkDomain();
     }
+
     domains[data.domain].addClient(socket.id, function(up){
       socket.emit('result', {'up': up, 'domain': data.domainName});
     });

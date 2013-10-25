@@ -12,7 +12,7 @@ function upFinder(code)
 function Monitor(domain)
 {
   //Class constructor
-  this.domain = domain.slice();
+  this.domain = domain;
   this.clients = [];
   this.handler;
 }
@@ -31,21 +31,24 @@ Monitor.prototype.removeClient = function(client)
 {
   for(var i in this.clients) {
     if(this.clients[i].id == client) {
-      delete this.clients[client];
+      this.clients.splice(i, 1);
     }
   }
   if(!this.clients.length) {
-    delete this.handler;
+    this.stop();
   }
 }
 
 Monitor.prototype.start = function()
 {
   var parent = this;
-  parent.handler = setInterval(function() {
-    parent.checkDomain()
-  }, 5000);
   parent.checkDomain();
+}
+
+Monitor.prototype.stop = function()
+{
+  //clearInterval(this.handler);
+  clearTimeout(this.handler);
 }
 
 Monitor.prototype.checkDomain = function()
@@ -68,7 +71,10 @@ Monitor.prototype.checkDomain = function()
       clients[client].callback(up);
     }
   });
-  //I want to return up here, but its from a callback of a function so I am usure :/
+  var parent = this;
+  this.handler = setTimeout(function() {
+    parent.checkDomain()
+  }, 5000);
 }
 
 module.exports = Monitor;

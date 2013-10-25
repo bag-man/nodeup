@@ -39,6 +39,9 @@ io.sockets.on('connection', function (socket)
   socket.on('disconnect', function()
   {
     //Remove clients from domains[] objects
+    for(var i in domains) {
+      domains[i].removeClient(socket.id);
+    }
     console.log(socket.id + " disconnected.");
   });
   

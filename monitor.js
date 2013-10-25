@@ -12,11 +12,9 @@ function upFinder(code)
 function Monitor(domain)
 {
   //Class constructor
-  this.domain = domain;
-  //this.client = client;
-
+  this.domain = domain.slice();
   this.clients = [];
- // clients.push(client);
+  this.handler;
 }
 
 Monitor.prototype.addClient = function(client, callback)
@@ -36,6 +34,15 @@ Monitor.prototype.removeClient = function(client)
       delete this.clients[client];
     }
   }
+}
+
+Monitor.prototype.start = function()
+{
+  var parent = this;
+  parent.handler = setInterval(function() {
+    parent.checkDomain()
+  }, 5000);
+  parent.checkDomain();
 }
 
 Monitor.prototype.checkDomain = function()

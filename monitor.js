@@ -52,7 +52,7 @@ Monitor.prototype.checkDomain = function()
 {
   var clients = this.clients;
   var target = "http://" + this.domain;
-  console.log(target);
+  console.log(target + " requested by " + clients);
   http.get(target, function(res)
   {
     console.log(res.statusCode);

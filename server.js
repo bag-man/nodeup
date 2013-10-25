@@ -52,7 +52,7 @@ io.sockets.on('connection', function (socket)
     if(!domains[data.domain])
     {
       domains[data.domain] = new Monitor(data.domain);
-      domains[data.domain].handler = setInterval(domains[data.domain].checkDomain(), 5000);
+      domains[data.domain].handler = setInterval(domains[data.domain].checkDomain, 5000);
       domains[data.domain].checkDomain();
     }
 

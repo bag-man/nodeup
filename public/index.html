@@ -3,27 +3,12 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/x-icon" href="assets/imgs/favicon.ico" />
-		<link href="assets/css/bootstrap.css" rel="stylesheet" />
-		<link href="assets/css/bootstrap-theme.css" rel="stylesheet" />
-		<link href="assets/css/font-awesome.css" rel="stylesheet" />
+		<link rel="icon" type="image/x-icon" href="/assets/imgs/favicon.ico" />
+		<link href="/assets/css/bootstrap.css" rel="stylesheet" />
+		<link href="/assets/css/bootstrap-theme.css" rel="stylesheet" />
+		<link href="/assets/css/font-awesome.css" rel="stylesheet" />
 		<style type="text/css">
-			body {
-				background-image:		url('assets/imgs/background.png');
-			}
 
-			.container {
-				max-width:				750px;
-			}
-
-			#main {
-				margin-top:				15%;
-			}
-
-			#result {
-				margin-top:				5%;
-				text-align: 			center;
-			}
 		</style>
 		<title>Is it back yet?</title>
 	</head>
@@ -42,88 +27,10 @@
 			</div>
 		</div>
 		<div id="result" class="container"></div>
-		<script src="assets/js/jquery.js"></script>
-		<script src="assets/js/bootstrap.js"></script>
+		<script src="/assets/js/jquery.js"></script>
+		<script src="/assets/js/bootstrap.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
-		<script type="text/javascript">
-			'use strict';
-
-
-			function updateIcon(up) {
-			    var link = document.createElement('link');
-			    link.type = 'image/x-icon';
-			    link.rel = 'shortcut icon';
-                            if(up == true) {
-                              link.href = 'assets/imgs/up.ico';
-                            } else {
-                              link.href = 'assets/imgs/down.ico';
-			    }
-			    document.getElementsByTagName('head')[0].appendChild(link);
-			};
-
-			var socket				= io.connect('/'); 
-			var sessionID;
-			socket.on('id', function(data) {
-			   sessionID = data.id;
-			});
-			var checking			= $('<div class="alert alert-info"><i class="icon-repeat icon-spin"></i> Checking...</div>');
-			var resultSuccess		= $('<div class="alert alert-success"><strong>Hooray!</strong> It\'s up!</div>')
-			var resultFail			= $('<div class="alert alert-danger"><strong>Arsebiscuits!</strong> It\'s down!</div>')
-			var result				= null
-			var domainSubmitted;
-
-			function testDomain(domain) {
- 				domainSubmitted = domain;
-				result			= null;
-				$('#result').fadeOut('fast', function() {
-					$('#result').html(checking).fadeIn('fast');
-					socket.emit('domainSubmit', {'domain': domain, 'id': sessionID});
-				});
-			}
-
-			function processResult(success) {
-			  if(success == true) {
-                            document.title = "It's back!";
-			  } else {
-                            document.title = "It's down :(";
-			  }
-                            updateIcon(success);
-				if(result == success) {
-					return;
-				}
-				result		= success;
-				$('#result').fadeOut('fast', function() {
-					$('#result').html((success ? resultSuccess : resultFail)).fadeIn('fast');
-				});
-			}
-
-			socket.on('result', function(data) {
-				console.log(data);
-			    if(domainSubmitted == data.domain && result != data.up && result != null) 
-			    {
-			      if(data.up == true) 
-			      {
-			        alert("The website is back up. Click OK to continue.");
-					window.location.href = "http://" + domainSubmitted;
-			      } else {
-			        alert("The website has gone down! :(");
-			      }
-			    }
-			    processResult(data.up);
-			});
-
-			$('#domainInput').submit(function(){
-				testDomain($('#domain').val());
-				return false;
-			});
-
-			if(window.location.pathname.substr(1).length) {
-				var path		= window.location.pathname.substr(1).split('/');
-				console.log(path);
-				$('#domain').val(path[0])
-				testDomain(path[0]);
-			}
-		</script>
+		<script src="/assets/js/main.js"></script>
 	</body>
 
 </html>

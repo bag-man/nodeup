@@ -8,6 +8,7 @@ function Monitor(domain) {
   this.domain = domain;
   this.clients = [];
   this.handler;
+  this.started = false;
 }
 
 Monitor.prototype.addClient = function(client, callback) {
@@ -17,6 +18,9 @@ Monitor.prototype.addClient = function(client, callback) {
     }
   }
   this.clients.push({id: client, callback: callback});
+  if(!this.started) {
+    this.start();
+  }
 }
 
 Monitor.prototype.removeClient = function(client) {
@@ -33,10 +37,12 @@ Monitor.prototype.removeClient = function(client) {
 Monitor.prototype.start = function() {
   var parent = this;
   parent.checkDomain();
+  parent.started = true;
 }
 
 Monitor.prototype.stop = function() {
   clearTimeout(this.handler);
+  this.started = false;
 }
 
 Monitor.prototype.checkDomain = function() {

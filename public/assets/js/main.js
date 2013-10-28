@@ -18,7 +18,7 @@ var sessionID;
 socket.on('id', function(data) {
   sessionID = data.id;
 });
-var checking			= $('<div class="alert alert-info"><i class="icon-repeat icon-spin"></i> Checking...</div>');
+var checking			= $('<div class="alert alert-info"><i class="fa fa-repeat fa-spin"></i> Checking...</div>');
 var resultSuccess		= $('<div class="alert alert-success"><strong>Hooray!</strong> It\'s up!</div>')
 var resultFail			= $('<div class="alert alert-danger"><strong>Arsebiscuits!</strong> It\'s down!</div>')
 var result				= null

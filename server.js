@@ -30,7 +30,8 @@ io.sockets.on('connection', function (socket) {
   socket.on('domainSubmit', function(data) {
     console.log(data.id + " requested " + data.domain);
     for(i = 0; i < domains.length; i++) {
-      domains[i].removeClient(socket.id);
+      domains[i].removeClient(socket.id); //This code doesn't run
+      console.log(socket.id + " removed from " + domains[i]); 
     }
     if(!domains[data.domain]) {
       domains[data.domain] = new Monitor(data.domain);

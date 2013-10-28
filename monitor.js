@@ -6,7 +6,7 @@ function upFinder(code) {
 
 function Monitor(domain) {
   this.domain = domain;
-  this.clients = [];
+  this.clients = {};
   this.handler;
 }
 

@@ -1,34 +1,39 @@
 <!DOCTYPE html>
 <html lang="en-GB">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/x-icon" href="/assets/imgs/favicon.ico" />
-		<link href="/assets/css/bootstrap.css" rel="stylesheet" />
-		<link href="/assets/css/bootstrap-theme.css" rel="stylesheet" />
-		<link href="/assets/css/font-awesome.css" rel="stylesheet" />
-		<link href="/assets/css/main.css" rel="stylesheet" />
-		<title>Is it back yet?</title>
-	</head>
-	<body>
-		<div id="main" class="container" style="max-width: 750px">
-			<div class="row">
-				<form class="form-inline" id="domainInput">
-					<div class="form-group col-lg-8">
-						<label class="sr-only" for="domain">Domain:</label>
-						<input class="form-control" type="text" id="domain" placeholder="example.com" />
-					</div>
-					<div class="col-lg-4">
-						<button class="btn btn-primary" type="submit" style="width: 100%">Check</button>
-					</div>
-				</form>
-			</div>
-		</div>
-		<div id="result" class="container"></div>
-		<script src="/assets/js/jquery.js"></script>
-		<script src="/assets/js/bootstrap.js"></script>
-		<script src="/socket.io/socket.io.js"></script>
-		<script src="/assets/js/main.js"></script>
-	</body>
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="icon" type="image/x-icon" href="/assets/imgs/favicon.ico" />
+    <link href="/assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="/assets/css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="/assets/css/font-awesome.css" rel="stylesheet" />
+    <link href="/assets/css/main.css" rel="stylesheet" />
+
+    <title>Is it back yet?</title>
+
+    <script src="/assets/js/jquery.js"></script>
+    <script src="/assets/js/bootstrap.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/assets/js/main.js"></script>
+  </head>
+
+  <body>
+    <div id="main" class="container" style="max-width: 750px">
+      <div class="row">
+	<form class="form-inline" id="domainInput">
+	  <div class="form-group col-lg-8">
+	    <label class="sr-only" for="domain">Domain:</label>
+	    <input class="form-control" type="text" id="domain" placeholder="example.com" />
+	  </div>
+	  <div class="col-lg-4">
+	    <button class="btn btn-primary" type="submit" style="width: 100%">Check</button>
+	  </div>
+	</form>
+      </div>
+    </div>
+    <div id="result" class="container"></div>
+  </body>
 
 </html>

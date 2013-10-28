@@ -39,7 +39,7 @@ function processResult(success) {
   } else {
     document.title = "It's down :(";
   }
-  updateIcon(success);
+  //updateIcon(success);
   if(result == success) {
     return;
   }
@@ -55,7 +55,7 @@ socket.on('result', function(data) {
   {
     if(data.up == true)
     {
-      alert("The website is back up. Click OK to continue.");
+      alert("Its back up at: " + domainSubmitted + "\nClick OK to continue.");
       window.location.href = "http://" + domainSubmitted;
     } else {
       alert("The website has gone down! :(");

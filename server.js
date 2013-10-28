@@ -28,9 +28,9 @@ io.sockets.on('connection', function (socket) {
   });
   
   socket.on('domainSubmit', function(data) {
-    console.log(data.id + " requested " + data.domain);
+    //On domainSubmit the client disconnects.
     for(var i in domains) {
-      domains[i].removeClient(socket.id); //This code doesn't run, yet the client disconnects for some reason
+      domains[i].removeClient(socket.id); 
       console.log(socket.id + " removed from " + domains[i]); 
     }
     if(!domains[data.domain]) {

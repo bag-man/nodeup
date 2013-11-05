@@ -39,7 +39,7 @@ function processResult(success) {
   } else {
     document.title = "It's down :(";
   }
-  //updateIcon(success);
+  updateIcon(success);
   if(result == success) {
     return;
   }
@@ -50,12 +50,11 @@ function processResult(success) {
 }
 
 socket.on('result', function(data) {
-  console.log(data);
   if(domainSubmitted == data.domain && result != data.up && result != null)
   {
     if(data.up == true)
     {
-      alert("Its back up at: " + domainSubmitted + "\nClick OK to continue.");
+      alert("Its back up at " + domainSubmitted + "\nClick OK to continue.");
       window.location.href = "http://" + domainSubmitted;
     } else {
       alert("The website has gone down! :(");

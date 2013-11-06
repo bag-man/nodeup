@@ -1,5 +1,8 @@
 'use strict';
 
+//Cosmetic
+var domainInput = document.getElementById('domain');
+domainInput.focus();
 
 function updateIcon(up) {
   var link = document.createElement('link');
@@ -13,15 +16,19 @@ function updateIcon(up) {
   document.getElementsByTagName('head')[0].appendChild(link);
 };
 
+var checking      = $('<div class="alert alert-info"><i class="fa fa-repeat fa-spin"></i> Checking...</div>'),
+    resultSuccess = $('<div class="alert alert-success"><strong>Hooray!</strong> It\'s up!</div>'), 
+    resultFail	  = $('<div class="alert alert-danger"><strong>Arsebiscuits!</strong> It\'s down!</div>');
+
+//Backend
 var socket				= io.connect('/');
 var sessionID;
+
 socket.on('id', function(data) {
   sessionID = data.id;
 });
-var checking			= $('<div class="alert alert-info"><i class="fa fa-repeat fa-spin"></i> Checking...</div>');
-var resultSuccess		= $('<div class="alert alert-success"><strong>Hooray!</strong> It\'s up!</div>')
-var resultFail			= $('<div class="alert alert-danger"><strong>Arsebiscuits!</strong> It\'s down!</div>')
-var result				= null
+
+var result = null
 var domainSubmitted;
 
 function testDomain(domain) {

@@ -2,6 +2,7 @@ var express = require('express'),
         app = express(),
      server = require('http').createServer(app),
          io = require('socket.io').listen(server),
+	url = require('url'),
     Monitor = require('./monitor.js'),
     domains = {};
 
@@ -28,17 +29,26 @@ io.sockets.on('connection', function (socket) {
   });
   
   socket.on('domainSubmit', function(data) {
+    domain = valURL(data.domain);
     for(var i in domains) {
       //This removes all instances of the client from all domains. 
       //It works but not efficiently
       domains[i].removeClient(socket.id); 
     }
-    if(!domains[data.domain]) {
-      domains[data.domain] = new Monitor(data.domain);
-      domains[data.domain].start();
+    if(!domains[domain]) {
+      domains[domain] = new Monitor(domain);
+      domains[domain].start();
     }
-    domains[data.domain].addClient(socket.id, function(up) {
-      socket.emit('result', {'up': up, 'domain': data.domain});
+    domains[domain].addClient(socket.id, function(up) {
+      socket.emit('result', {'up': up, 'domain': domain});
     });
   });
 });
+
+function valURL(inputUrl) {
+  var testUrl = url.parse(inputUrl);
+  if(testUrl.protocol == null) {
+    testUrl = url.parse('http://' + inputUrl);
+  }
+  return testUrl.hostname;
+}

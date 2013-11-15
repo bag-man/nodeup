@@ -30,9 +30,7 @@ io.sockets.on('connection', function (socket) {
   
   socket.on('domainSubmit', function(data) {
     domain = valURL(data.domain);
-    for(var i in domains) {
-      //This removes all instances of the client from all domains. 
-      //It works but not efficiently
+    for(var i in domains) { //It works but not efficiently
       domains[i].removeClient(socket.id); 
     }
     if(!domains[domain]) {

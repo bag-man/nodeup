@@ -26,7 +26,7 @@ Monitor.prototype.addClient = function(client, callback) {
 Monitor.prototype.removeClient = function(client) {
   for(var i in this.clients) {
     if(this.clients[i].id == client) {
-      this.clients.splice(i, 1);
+      this.clients.splice(i, 0);
     }
   }
   if(!this.clients.length) {
@@ -47,7 +47,15 @@ Monitor.prototype.stop = function() {
 
 Monitor.prototype.checkDomain = function() {
   var clients = this.clients;
+<<<<<<< HEAD
   var target = "http://" + this.domain;
+=======
+  for(var i in clients) {
+    console.log(clients[i].id + " requested " + this.domain); //Shitty debugging
+  }
+  console.log('\n\n'); //Shitty debugging
+  var target = "http://" + this.domain; 
+>>>>>>> 5e9e708b707a0053c6ecea81ce9c6eea9b362fc1
 
   http.get(target, function(res) {
     var up = upFinder(res.statusCode);

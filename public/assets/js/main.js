@@ -28,6 +28,7 @@ socket.on('id', function(data) {
   sessionID = data.id;
 });
 
+var popped = false;
 var result = null
 var domainSubmitted;
 
@@ -59,9 +60,10 @@ function processResult(success) {
 socket.on('result', function(data) {
   if(domainSubmitted == data.domain && result != data.up && result != null)
   {
-    if(data.up == true)
+    if(data.up == true && popped == false)
     {
       alert("Its back up at " + domainSubmitted + "\nClick OK to continue.");
+      popped = true; // This is supposed to stop alerts stacking but doesn't :/ 
       window.location.href = "http://" + domainSubmitted;
     } else {
       alert("The website has gone down! :(");

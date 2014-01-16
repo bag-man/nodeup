@@ -14,3 +14,5 @@ It is far from finished so don't be too critical!
 * Add info/usage/contact etc..
 
 * Testing shit way more thoroughly, perhaps create a node app to generate HTTP codes
+
+* Check if it can be exploited by submitting prototype. (IRC guy's suggestion)

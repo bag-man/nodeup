@@ -6,13 +6,14 @@ var express = require('express'),
     Monitor = require('./monitor.js'),
     domains = {};
 
-io.set('log level', 1); 
+io.set('log level', 1); //Turn off logging
 server.listen(80);
 
 app.configure(function () {
   app.use(express.static(__dirname + '/public'));
 });
 
+// Accept URL parameters
 app.get('/:domain', function(req, res) {
   res.sendfile(__dirname + '/public/index.html');
 });
@@ -30,13 +31,16 @@ io.sockets.on('connection', function (socket) {
   
   socket.on('domainSubmit', function(data) {
     domain = valURL(data.domain);
-    for(var i in domains) { //It works but not efficiently
+    for(var i in domains) { 
       domains[i].removeClient(socket.id); 
     }
+
+    // Create a new domain Monitor
     if(!domains[domain]) {
       domains[domain] = new Monitor(domain);
       domains[domain].start();
     }
+
     domains[domain].addClient(socket.id, function(up) {
       socket.emit('result', {'up': up, 'domain': domain});
     });

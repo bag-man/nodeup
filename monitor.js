@@ -1,7 +1,8 @@
 var http = require('follow-redirects').http;
 
 function upFinder(code) {
-  return !!(code >= 200 && code <= 203);
+  //These are the only HTTP codes we consider UP, but we need more HTTP knowledge/testing
+  return !!(code >= 200 && code <= 203); 
 }
 
 function Monitor(domain) {
@@ -11,6 +12,7 @@ function Monitor(domain) {
   this.started = false;
 }
 
+// Add clients and start monitor
 Monitor.prototype.addClient = function(client, callback) {
   for(var i in this.clients) {
     if(this.clients[i].id == client) {
@@ -23,8 +25,8 @@ Monitor.prototype.addClient = function(client, callback) {
   }
 }
 
+// Remove clients from monitors/domains. This gets ran on sumbit
 Monitor.prototype.removeClient = function(client) {
-  //console.log(this.domain , " has these clients: " , this.clients); //Debug to show client is not removed
   for(var i in this.clients) {
     if(this.clients[i].id == client) {
       this.clients = this.clients.splice(i, 0);
@@ -33,7 +35,6 @@ Monitor.prototype.removeClient = function(client) {
   if(!this.clients.length) {
     this.stop();
   }
-  //console.log(this.domain , " has these clients: " , this.clients);
 }
 
 Monitor.prototype.start = function() {
@@ -65,7 +66,7 @@ Monitor.prototype.checkDomain = function() {
   var parent = this;
   this.handler = setTimeout(function() {
     parent.checkDomain()
-  }, 5000);
+  }, 5000); // Check every 5 seconds seemed reasonable
 }
 
 module.exports = Monitor;

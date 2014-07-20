@@ -2,9 +2,9 @@
 
 This is a little project I am working on with [Jamie Knight](http://github.com/jamiek23) to make a website similar to isup.me, but with more awesome features!
 
-It is far from finished so don't be too critical!
+At the moment, we have finished the basic functionality of the site, and we are opening it up to the internet so that hopefully we can get some more varied testing done. 
 
-##TODO
-* Add info/usage/contact etc..
+The site is live at [itsback.at](http://itsback.at). Please remeber this site was built for learning, so if you see anything you shouldn't please give us a shout!
 
-* Polish it up and get ready for a launch!
+
+The project was built using NodeJS, Express and Socket.IO. 

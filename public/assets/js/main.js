@@ -64,9 +64,10 @@ socket.on('result', function(data) {
   {
     if(data.up == true && popped == false)
     {
-      popped = true;
-      alert("Its back up at " + domainSubmitted + "\nClick OK to continue.");
-      window.location.href = "http://" + domainSubmitted;
+      popped = true; 
+      if(confirm("Its back up at " + domainSubmitted + "\nDo you want to go there now?")) {
+        window.location.href = "http://" + domainSubmitted;
+      }
     } else {
       popped = true;
       alert("The website has gone down! :(");

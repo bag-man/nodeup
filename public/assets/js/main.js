@@ -62,15 +62,19 @@ function processResult(success) {
 socket.on('result', function(data) {
   if(domainSubmitted == data.domain && result != data.up && result != null)
   {
-    if(data.up == true && popped == false)
+    if(data.up == true)
     {
-      popped = true; 
-      if(confirm("Its back up at " + domainSubmitted + "\nDo you want to go there now?")) {
-        window.location.href = "http://" + domainSubmitted;
+      if(popped == false){
+	popped = true; 
+	if(confirm("Its back up at " + domainSubmitted + "\nDo you want to go there now?")) {
+	  window.location.href = "http://" + domainSubmitted;
+	}
       }
     } else {
-      popped = true;
-      alert("The website has gone down! :(");
+      if(popped == false){
+	popped = true;
+	alert("The website has gone down! :(");
+      }
     }
   }
   processResult(data.up);

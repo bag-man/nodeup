@@ -24,6 +24,7 @@ Monitor.prototype.addClient = function(client, callback) {
 }
 
 Monitor.prototype.removeClient = function(client) {
+  console.log(this.domain , " has these clients: " , this.clients); //Debug to show client is not removed
   for(var i in this.clients) {
     if(this.clients[i].id == client) {
       this.clients.splice(i, 0);
@@ -32,6 +33,7 @@ Monitor.prototype.removeClient = function(client) {
   if(!this.clients.length) {
     this.stop();
   }
+  console.log(this.domain , " has these clients: " , this.clients);
 }
 
 Monitor.prototype.start = function() {

@@ -1,41 +1,45 @@
 'use strict';
 
-//Cosmetic
-var domainInput = document.getElementById('domain');
+// Cosmetic
+var domainInput   = document.getElementById('domain'),
+    checking      = $('<div class="alert alert-info"><i class="fa fa-repeat fa-spin"></i> Checking...</div>'),
+    resultSuccess = $('<div class="alert alert-success"><strong>Hooray!</strong> It\'s up!</div>'), 
+    resultFail	  = $('<div class="alert alert-danger"><strong>Arsebiscuits!</strong> It\'s down!</div>');
+
 domainInput.focus();
 
 function updateIcon(up) {
   var link = document.createElement('link');
-  link.type = 'image/x-icon';
-  link.rel = 'shortcut icon';
+      link.type = 'image/x-icon';
+      link.rel = 'shortcut icon';
+
   if(up == true) {
     link.href = '/assets/imgs/up.ico';
   } else {
     link.href = '/assets/imgs/down.ico';
   }
+
   document.getElementsByTagName('head')[0].appendChild(link);
 };
 
-var checking      = $('<div class="alert alert-info"><i class="fa fa-repeat fa-spin"></i> Checking...</div>'),
-    resultSuccess = $('<div class="alert alert-success"><strong>Hooray!</strong> It\'s up!</div>'), 
-    resultFail	  = $('<div class="alert alert-danger"><strong>Arsebiscuits!</strong> It\'s down!</div>');
 
-//Backend
-var socket				= io.connect('/');
-var sessionID;
+// Backend
+var socket = io.connect('/'),
+    sessionID,
+    popped = false,
+    result = null,
+    domainSubmitted;
 
 socket.on('id', function(data) {
   sessionID = data.id;
 });
 
-var popped = false;
-var result = null
-var domainSubmitted;
 
 function testDomain(domain) {
   domainSubmitted = domain;
-  popped      = false;
-  result			= null;
+  popped = false;
+  result = null;
+
   $('#result').fadeOut('fast', function() {
     $('#result').html(checking).fadeIn('fast');
     socket.emit('domainSubmit', {'domain': domain, 'id': sessionID});
@@ -43,27 +47,28 @@ function testDomain(domain) {
 }
 
 function processResult(success) {
-  popped         = false;
+  popped = false;
+
   if(success == true) {
     document.title = "It's back!";
   } else {
     document.title = "It's down :(";
   }
+
   updateIcon(success);
   if(result == success) {
     return;
   }
-  result		= success;
+
+  result = success;
   $('#result').fadeOut('fast', function() {
     $('#result').html((success ? resultSuccess : resultFail)).fadeIn('fast');
   });
 }
 
 socket.on('result', function(data) {
-  if(domainSubmitted == data.domain && result != data.up && result != null)
-  {
-    if(data.up == true)
-    {
+  if(domainSubmitted == data.domain && result != data.up && result != null) {
+    if(data.up == true) {
       if(popped == false){
 	popped = true; 
 	if(confirm("Its back up at " + domainSubmitted + "\nDo you want to go there now?")) {
@@ -77,6 +82,7 @@ socket.on('result', function(data) {
       }
     }
   }
+
   processResult(data.up);
 });
 

@@ -62,8 +62,8 @@ socket.on('result', function(data) {
   {
     if(data.up == true && popped == false)
     {
+      popped = true; // This is supposed to stop alerts stacking but doesn't :/
       alert("Its back up at " + domainSubmitted + "\nClick OK to continue.");
-      popped = true; // This is supposed to stop alerts stacking but doesn't :/ 
       window.location.href = "http://" + domainSubmitted;
     } else {
       alert("The website has gone down! :(");
@@ -80,6 +80,6 @@ $('#domainInput').submit(function(){
 if(window.location.pathname.substr(1).length) {
   var path		= window.location.pathname.substr(1).split('/');
   console.log(path);
-  $('#domain').val(path[0])
+  $('#domain').val(path[0]);
   testDomain(path[0]);
 }

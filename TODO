@@ -15,3 +15,14 @@ TypeError: Cannot read property 'id' of undefined
     at Parser.opcodeHandlers.8 (/root/nodeup/node_modules/socket.io/lib/transports/websocket/hybi-16.js:389:12)
 
 Occasionally we get this, which crashes the site. No idea what the cause is though... 
+
+
+AHHH, it could be because this:
+for(var i in this.clients)
+in monitor.js, lines 17 and 30
+will also loop through the array's properties as well as its elements, so if it has any extra properties that are undefined or aren't client objects, they'll be iterated over too... replacing the for..in with a normal for loop might help...
+for(var i=0; i<this.clients.length; i++)
+
+OR it could be that it's because you're modifying the array you're looping over when you splice it. so the indexes will go out of sync. make a new, temporary copy of the array in removeClients and push the clients you want to keep to it, then assign this.clients to that temp array at the end, maybe
+
+I think the issue is this above ^ I think the index gets messed up.

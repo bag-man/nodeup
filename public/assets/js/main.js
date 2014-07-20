@@ -34,6 +34,7 @@ var domainSubmitted;
 
 function testDomain(domain) {
   domainSubmitted = domain;
+  popped      = false;
   result			= null;
   $('#result').fadeOut('fast', function() {
     $('#result').html(checking).fadeIn('fast');
@@ -42,6 +43,7 @@ function testDomain(domain) {
 }
 
 function processResult(success) {
+  popped         = false;
   if(success == true) {
     document.title = "It's back!";
   } else {
@@ -62,10 +64,11 @@ socket.on('result', function(data) {
   {
     if(data.up == true && popped == false)
     {
-      popped = true; // This is supposed to stop alerts stacking but doesn't :/
+      popped = true;
       alert("Its back up at " + domainSubmitted + "\nClick OK to continue.");
       window.location.href = "http://" + domainSubmitted;
     } else {
+      popped = true;
       alert("The website has gone down! :(");
     }
   }

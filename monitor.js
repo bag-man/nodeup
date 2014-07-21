@@ -31,7 +31,7 @@ Monitor.prototype.removeClient = function(client) {
     if(this.clients[i] != undefined && this.clients[i].id == client) {
       //console.log(this.domain , " has these clients: " , this.clients);
       //delete this.clients[i];
-      this.clients.splice(i,1);
+      this.clients.splice(i,1); // This used to be 0
       //console.log(this.domain , " has these clients: " , this.clients);
     }
   }

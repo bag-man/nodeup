@@ -1,5 +1,0 @@
-
-> nodeup@0.0.1 start /root/nodeup
-> node server.js
-
-info: socket.io started

@@ -20,13 +20,13 @@ app.get('/:domain', function(req, res) {
 
 io.sockets.on('connection', function (socket) {
   socket.emit('id', {'id': socket.id});
-  console.log(socket.id + "\n connected.\n");
+  console.log(socket.id + " connected.\n");
 
   socket.on('disconnect', function() {
     for(var i in domains) {
       domains[i].removeClient(socket.id);
     }
-    console.log(socket.id + "\n disconnected.\n");
+    console.log(socket.id + " disconnected.\n");
   });
   
   socket.on('domainSubmit', function(data) {

@@ -62,6 +62,7 @@ Monitor.prototype.checkDomain = function() {
       clients[client].callback(up);
     }
   }).on('error', function(e) {
+    console.log("ERROR!\n");
     var up = false;
     for(var client in clients) {
       clients[client].callback(up);

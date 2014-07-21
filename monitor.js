@@ -29,7 +29,10 @@ Monitor.prototype.addClient = function(client, callback) {
 Monitor.prototype.removeClient = function(client) {
   for(var i=0; i<this.clients.length; i++) {
     if(this.clients[i] != undefined && this.clients[i].id == client) {
-      delete this.clients[i];
+      //console.log(this.domain , " has these clients: " , this.clients);
+      //delete this.clients[i];
+      this.clients.splice(i,1);
+      //console.log(this.domain , " has these clients: " , this.clients);
     }
   }
   if(!this.clients.length) {
@@ -67,6 +70,11 @@ Monitor.prototype.checkDomain = function() {
   this.handler = setTimeout(function() {
     parent.checkDomain()
   }, 5000); // Check every 5 seconds seemed reasonable
+}
+
+// Debug, show domains clients
+Monitor.prototype.printClients = function() {
+  console.log(this.domain, " has these clients: \n", this.clients);
 }
 
 module.exports = Monitor;

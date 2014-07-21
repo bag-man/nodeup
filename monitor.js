@@ -58,6 +58,7 @@ Monitor.prototype.checkDomain = function() {
   http.get(target, function(res) {
     var up = upFinder(res.statusCode);
     for(var client in clients) {
+      console.log("Sending data to: \n", clients);
       clients[client].callback(up);
     }
   }).on('error', function(e) {

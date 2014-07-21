@@ -1,0 +1,27 @@
+
+> nodeup@0.0.1 start /root/nodeup
+> node server.js
+
+info: socket.io started
+
+npm ERR! nodeup@0.0.1 start: `node server.js`
+npm ERR! Exit status 143
+npm ERR! 
+npm ERR! Failed at the nodeup@0.0.1 start script.
+npm ERR! This is most likely a problem with the nodeup package,
+npm ERR! not with npm itself.
+npm ERR! Tell the author that this fails on your system:
+npm ERR!     node server.js
+npm ERR! You can get their info via:
+npm ERR!     npm owner ls nodeup
+npm ERR! There is likely additional logging output above.
+npm ERR! System Linux 2.6.32-042stab090.5
+npm ERR! command "/usr/local/bin/node" "/usr/local/bin/npm" "start"
+npm ERR! cwd /root/nodeup
+npm ERR! node -v v0.10.29
+npm ERR! npm -v 1.4.14
+npm ERR! code ELIFECYCLE
+npm ERR! 
+npm ERR! Additional logging details can be found in:
+npm ERR!     /root/nodeup/npm-debug.log
+npm ERR! not ok code 0

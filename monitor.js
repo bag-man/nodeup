@@ -28,14 +28,8 @@ Monitor.prototype.addClient = function(client, callback) {
 // Remove clients from monitors/domains. This gets ran on sumbit
 Monitor.prototype.removeClient = function(client) {
   for(var i=0; i<this.clients.length; i++) {
-    if(this.clients[i].id == client) {
-
-      // This is the problem
-      console.log(this.domain , " has these clients: " , this.clients);
-      this.clients = this.clients.splice(i, 0);
-      console.log(this.domain , " has these clients: " , this.clients);
-
-
+    if(this.clients[i] != undefined && this.clients[i].id == client) {
+      delete this.clients[i];
     }
   }
   if(!this.clients.length) {

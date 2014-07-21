@@ -27,7 +27,7 @@ Monitor.prototype.addClient = function(client, callback) {
 
 // Remove clients from monitors/domains. This gets ran on sumbit
 Monitor.prototype.removeClient = function(client) {
-  for(var i in this.clients) {
+  for(var i=0; i<this.clients.length; i++) {
     if(this.clients[i].id == client) {
       this.clients = this.clients.splice(i, 0);
     }

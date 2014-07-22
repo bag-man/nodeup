@@ -58,11 +58,10 @@ Monitor.prototype.checkDomain = function() {
   http.get(target, function(res) {
     var up = upFinder(res.statusCode);
     for(var client in clients) {
-      console.log("Sending data to: \n", clients);
       clients[client].callback(up);
+      console.log("Sending data to: " + clients[client].id);
     }
   }).on('error', function(e) {
-    console.log("ERROR!\n");
     var up = false;
     for(var client in clients) {
       clients[client].callback(up);
@@ -70,7 +69,8 @@ Monitor.prototype.checkDomain = function() {
   });
   var parent = this;
   this.handler = setTimeout(function() {
-    parent.checkDomain()
+    parent.checkDomain();
+    console.log("Checking site...");
   }, 5000); // Check every 5 seconds seemed reasonable
 }
 

@@ -50,7 +50,15 @@ Monitor.prototype.stop = function() {
 
 Monitor.prototype.checkDomain = function() {
   var clients = this.clients;
-      target  = "http://" + this.domain;
+  var target = {
+	host: this.domain,
+	port: 80,
+	path: '/',
+	method: 'GET',
+	headers: {
+	    'User-Agent': 'Mozilla/5.0'
+	}
+      }
 
   http.get(target, function(res) {
     var up = upFinder(res.statusCode);
@@ -58,6 +66,7 @@ Monitor.prototype.checkDomain = function() {
       clients[client].callback(up);
     }
   }).on('error', function(e) {
+    console.log(e);
     var up = false;
     for(var client in clients) {
       clients[client].callback(up);

@@ -58,7 +58,7 @@ Monitor.prototype.checkDomain = function() {
 	headers: {
 	    'User-Agent': 'Mozilla/5.0'
 	}
-      }
+  }
 
   http.get(target, function(res) {
     var up = upFinder(res.statusCode);

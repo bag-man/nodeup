@@ -53,13 +53,17 @@ Monitor.prototype.stop = function() {
 
 Monitor.prototype.checkDomain = function() {
   var clients = this.clients;
-  var target = "http://" + this.domain; 
+  var options = { 
+    domain: "http://" + this.domain,
+    port: 80,
+    agent: false // This solves the 5 max request issue http://goo.gl/UsZ90E
+  };
 
-  http.get(target, function(res) {
+  http.get(options, function(res) {
     var up = upFinder(res.statusCode);
     for(var client in clients) {
       clients[client].callback(up);
-      console.log("Sending data to: " + clients[client].id);
+      //console.log("Sending data to: " + clients[client].id);
     }
   }).on('error', function(e) {
     var up = false;
@@ -69,14 +73,8 @@ Monitor.prototype.checkDomain = function() {
   });
   var parent = this;
   this.handler = setTimeout(function() {
-    parent.checkDomain();
-    console.log("Checking site...");
+    parent.checkDomain()
   }, 5000); // Check every 5 seconds seemed reasonable
-}
-
-// Debug, show domains clients
-Monitor.prototype.printClients = function() {
-  console.log(this.domain, " has these clients: \n", this.clients);
 }
 
 module.exports = Monitor;

@@ -29,7 +29,7 @@ Monitor.prototype.addClient = function(client, callback) {
 Monitor.prototype.removeClient = function(client) {
   for(var i=0; i<this.clients.length; i++) {
     if(this.clients[i].id == client) {
-      this.clients.splice(i,1); // This used to be 0
+      this.clients.splice(i,1);
     }
   }
   if(!this.clients.length) {

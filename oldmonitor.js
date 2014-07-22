@@ -27,9 +27,9 @@ Monitor.prototype.addClient = function(client, callback) {
 
 // Remove clients from monitors/domains. This gets ran on sumbit
 Monitor.prototype.removeClient = function(client) {
-  for(var i=0; i<this.clients.length; i++) {
+  for(var i in this.clients) {
     if(this.clients[i].id == client) {
-      this.clients.splice(i,1); // This used to be 0
+      this.clients = this.clients.splice(i, 0);
     }
   }
   if(!this.clients.length) {
@@ -50,7 +50,7 @@ Monitor.prototype.stop = function() {
 
 Monitor.prototype.checkDomain = function() {
   var clients = this.clients;
-      target  = "http://" + this.domain;
+  var target = "http://" + this.domain; 
 
   http.get(target, function(res) {
     var up = upFinder(res.statusCode);
@@ -62,8 +62,6 @@ Monitor.prototype.checkDomain = function() {
     for(var client in clients) {
       clients[client].callback(up);
     }
-  }).on("socket", function (socket) {
-    socket.emit("agentRemove");
   });
   var parent = this;
   this.handler = setTimeout(function() {
@@ -72,3 +70,4 @@ Monitor.prototype.checkDomain = function() {
 }
 
 module.exports = Monitor;
+

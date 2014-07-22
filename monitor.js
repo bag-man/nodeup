@@ -24,13 +24,12 @@ Monitor.prototype.addClient = function(client, callback) {
     this.start();
   }
 }
-
+//this.clients[i] != undefined && 
 // Remove clients from monitors/domains. This gets ran on sumbit
 Monitor.prototype.removeClient = function(client) {
   for(var i=0; i<this.clients.length; i++) {
-    if(this.clients[i] != undefined && this.clients[i].id == client) {
+    if(this.clients[i].id == client) {
       //console.log(this.domain , " has these clients: " , this.clients);
-      //delete this.clients[i];
       this.clients.splice(i,1); // This used to be 0
       //console.log(this.domain , " has these clients: " , this.clients);
     }

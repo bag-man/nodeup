@@ -48,6 +48,13 @@ Monitor.prototype.stop = function() {
   this.started = false;
 }
 
+Monitor.prototype.log = function() {
+  console.log("\n" + this.domain + ":");
+  for(client in this.clients) {
+    console.log("	" + this.clients[client].id);
+  }
+}
+
 Monitor.prototype.checkDomain = function() {
   var clients = this.clients;
   var target = {
@@ -55,15 +62,18 @@ Monitor.prototype.checkDomain = function() {
 	port: 80,
 	path: '/',
 	method: 'GET',
+        agent: false,
 	headers: {
 	    'User-Agent': 'Mozilla/5.0'
 	}
   }
 
   http.get(target, function(res) {
+    res.on('data',function(){}); // Do nothing with the data to free the socket.
     var up = upFinder(res.statusCode);
     for(var client in clients) {
       clients[client].callback(up);
+      // console.log("Sent:	" + clients[client].id);
     }
   }).on('error', function(e) {
     //console.log(e);
@@ -71,13 +81,12 @@ Monitor.prototype.checkDomain = function() {
     for(var client in clients) {
       clients[client].callback(up);
     }
-  }).on("socket", function (socket) {
-    socket.emit("agentRemove");
   });
   var parent = this;
   this.handler = setTimeout(function() {
     parent.checkDomain()
   }, 5000); // Check every 5 seconds seemed reasonable
+  // this.log();
 }
 
 module.exports = Monitor;

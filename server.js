@@ -31,12 +31,17 @@ io.sockets.on('connection', function (socket) {
   
   socket.on('domainSubmit', function(data) {
     domain = valURL(data.domain);
+
+    if(domain == null) {
+      return;
+    }
+
     for(var i in domains) { 
       domains[i].removeClient(socket.id); 
     }
 
     // Create a new domain Monitor
-    if(!domains[domain]) {
+    if(!domains.hasOwnProperty(domain)) {
       domains[domain] = new Monitor(domain);
       domains[domain].start();
     }

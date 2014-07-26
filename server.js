@@ -8,6 +8,9 @@ var express = require('express'),
 
 io.set('log level', 1); //Turn off logging
 server.listen(80);
+server.on('error', function() {
+  console.log(e);
+}
 
 app.configure(function () {
   app.use(express.static(__dirname + '/public'));

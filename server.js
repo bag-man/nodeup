@@ -7,7 +7,7 @@ var express = require('express'),
     domains = {};
 
 io.set('log level', 1); //Turn off logging
-server.listen(80,'198.98.119.20'); // This is my servers IP. It is here for convenience.
+server.listen(80);
 
 app.configure(function () {
   app.use(express.static(__dirname + '/public'));

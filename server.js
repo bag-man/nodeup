@@ -41,8 +41,7 @@ io.sockets.on('connection', function (socket) {
     }
 
     // Create a new domain Monitor
-    //if(!domains.hasOwnProperty(domain)) {
-    if(!domains[domain]) {
+    if(!domains.hasOwnProperty(domain)) {
       domains[domain] = new Monitor(domain);
       domains[domain].start();
     }

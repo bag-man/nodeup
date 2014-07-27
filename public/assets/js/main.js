@@ -81,7 +81,8 @@ var socket = io.connect('/'),
     sessionID,
     popped = false,
     result = null,
-    domainSubmitted;
+    domainSubmitted,
+    first = true;
 
 socket.on('id', function(data) {
   sessionID = data.id;
@@ -92,6 +93,7 @@ function testDomain(domain) {
   socket.on('theDomain', function(data) {
     domainSubmitted = data.domain;
   });
+
   popped = false;
   result = null;
 
@@ -122,7 +124,7 @@ function processResult(success) {
 }
 
 socket.on('result', function(data) {
-  if(domainSubmitted == data.domain && result != data.up && !popped) {
+  if(domainSubmitted == data.domain && result != data.up && !popped && first == false) {
     if(data.up == true) {
       popped = true;
       if(notifications == true) {
@@ -147,10 +149,12 @@ socket.on('result', function(data) {
   }
 
   processResult(data.up);
+  first = false;
 });
 
 $('#domainInput').submit(function(){
   testDomain($('#domain').val());
+  first = true;
   return false;
 });
 

@@ -7,7 +7,7 @@ var domainInput   = document.getElementById('domain'),
     resultFail	  = $('<div class="alert alert-danger"><strong>Arsebiscuits!</strong> It\'s down!</div>'),
     notifications = false;
 
-//getNotifyPerms();
+getNotifyPerms();
 domainInput.focus();
 
 function updateIcon(up) {
@@ -90,12 +90,13 @@ function processResult(success) {
 
 socket.on('result', function(data) {
   if(domainSubmitted == data.domain && result != data.up && result != null) {
+   console.log("Are we even getting here?");
     if(data.up == true) {
 	if(popped == false){
 	  popped = true; 
-/*	  if(notifications == true) {
+	  if(notifications == true) {
 	    var notification = new Notification(domainSubmitted + " is back up!");
-	  } 
+	  } /*
 	  if(window.webkitNotifications.checkPermission() == 0) {
 	    window.webkitNotifications.createNotification(domainSubmitted + " has gone down!");
 	  } */
@@ -107,9 +108,9 @@ socket.on('result', function(data) {
     } else {
       if(popped == false){
 	popped = true;
-/*	if(notifications == true) {
+	if(notifications == true) {
 	  var notification = new Notification(domainSubmitted + " has gone down!");
-	} 
+	}  /*
 	if(window.webkitNotifications.checkPermission() == 0) {
 	  window.webkitNotifications.createNotification(domainSubmitted + " has gone down!");
 	}*/

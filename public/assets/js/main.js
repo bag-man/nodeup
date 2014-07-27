@@ -4,8 +4,10 @@
 var domainInput   = document.getElementById('domain'),
     checking      = $('<div class="alert alert-info"><i class="fa fa-repeat fa-spin"></i> Checking...</div>'),
     resultSuccess = $('<div class="alert alert-success"><strong>Hooray!</strong> It\'s up!</div>'), 
-    resultFail	  = $('<div class="alert alert-danger"><strong>Arsebiscuits!</strong> It\'s down!</div>');
+    resultFail	  = $('<div class="alert alert-danger"><strong>Arsebiscuits!</strong> It\'s down!</div>'),
+    notifications = false;
 
+getNotifyPerms();
 domainInput.focus();
 
 function updateIcon(up) {
@@ -22,6 +24,23 @@ function updateIcon(up) {
   document.getElementsByTagName('head')[0].appendChild(link);
 };
 
+// Taken from: https://developer.mozilla.org/en-US/docs/Web/API/notification
+function getNotifyPerms() {
+  if (!("Notification" in window)) {
+    //alert("This browser does not support desktop notification");
+  } else if (Notification.permission === "granted") {
+    notifications = true;
+  } else if (Notification.permission !== 'denied') {
+    Notification.requestPermission(function (permission) {
+      if(!('permission' in Notification)) {
+        Notification.permission = permission;
+      }
+      if (permission === "granted") {
+        notifications = true;
+      }
+    });
+  }
+}
 
 // Backend
 var socket = io.connect('/'),
@@ -69,16 +88,23 @@ function processResult(success) {
 socket.on('result', function(data) {
   if(domainSubmitted == data.domain && result != data.up && result != null) {
     if(data.up == true) {
-      if(popped == false){
-	popped = true; 
-	if(confirm("Its back up at " + domainSubmitted + "\nDo you want to go there now?")) {
-	  window.location.href = "http://" + domainSubmitted;
+	if(popped == false){
+	  popped = true; 
+	  if(notifications == true) {
+	    var notification = new Notification(domainSubmitted + " is back up!");
+	  } 
+	  if(confirm("Its back up at " + domainSubmitted + "\nDo you want to go there now?")) {
+	    window.location.href = "http://" + domainSubmitted;
+	  }
 	}
-      }
+      
     } else {
       if(popped == false){
 	popped = true;
-	alert("The website has gone down! :(");
+	if(notifications == true) {
+	  var notification = new Notification(domainSubmitted + " has gone down!");
+	} 
+	alert(domainSubmitted + " has gone down! :(");
       }
     }
   }

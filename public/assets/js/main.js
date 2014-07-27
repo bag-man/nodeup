@@ -89,33 +89,29 @@ function processResult(success) {
 }
 
 socket.on('result', function(data) {
-  if(domainSubmitted == data.domain && result != data.up && result != null) {
+  console.log(domainSubmitted == data.domain, result != data.up, !popped);
+  if(domainSubmitted == data.domain && result != data.up && !popped) {
    console.log("Are we even getting here?");
     if(data.up == true) {
-	if(popped == false){
-	  popped = true; 
-	  if(notifications == true) {
-	    var notification = new Notification(domainSubmitted + " is back up!");
-	  } /*
-	  if(window.webkitNotifications.checkPermission() == 0) {
-	    window.webkitNotifications.createNotification(domainSubmitted + " has gone down!");
-	  } */
-	  if(confirm("Its back up at " + domainSubmitted + "\nDo you want to go there now?")) {
-	    window.location.href = "http://" + domainSubmitted;
-	  }
-	}
-      
-    } else {
-      if(popped == false){
-	popped = true;
-	if(notifications == true) {
-	  var notification = new Notification(domainSubmitted + " has gone down!");
-	}  /*
-	if(window.webkitNotifications.checkPermission() == 0) {
-	  window.webkitNotifications.createNotification(domainSubmitted + " has gone down!");
-	}*/
-	alert(domainSubmitted + " has gone down! :(");
+      popped = true;
+      if(notifications == true) {
+        var notification = new Notification(domainSubmitted + " is back up!");
+      } /*
+      if(window.webkitNotifications.checkPermission() == 0) {
+        window.webkitNotifications.createNotification(domainSubmitted + " has gone down!");
+      } */
+      if(confirm("Its back up at " + domainSubmitted + "\nDo you want to go there now?")) {
+        window.location.href = "http://" + domainSubmitted;
       }
+    } else {
+      popped = true;
+      if(notifications == true) {
+        var notification = new Notification(domainSubmitted + " has gone down!");
+      }  /*
+      if(window.webkitNotifications.checkPermission() == 0) {
+        window.webkitNotifications.createNotification(domainSubmitted + " has gone down!");
+      }*/
+      alert(domainSubmitted + " has gone down! :(");
     }
   }
 

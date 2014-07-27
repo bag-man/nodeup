@@ -16,17 +16,32 @@
 
   <body>
     <div id="main" class="container">
+			<form class="form-inline" id="domainInput">
 			<div class="row">
-				<form class="form-inline" id="domainInput">
-					<div class="form-group col-sm-8">
-						<label class="sr-only" for="domain">Domain:</label>
-						<input class="form-control" type="text" id="domain" placeholder="example.com" />
-					</div>
-					<div class="col-sm-4">
-						<button class="btn btn-primary" type="submit" style="width: 100%">Check</button>
-					</div>
-				</form>
+				<div class="form-group col-sm-8">
+					<label class="sr-only" for="domain">Domain:</label>
+					<input class="form-control" type="text" id="domain" placeholder="example.com" />
+				</div>
+				<div class="col-sm-4">
+					<button class="btn btn-primary" type="submit" style="width: 100%">Check</button>
+				</div>
 			</div>
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<div class="input-group">
+						<div class="input-group-addon">Port:</div>
+						<input class="form-control" type="text" id="port" placeholder="80" />
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" /> Use path
+						</label>
+					</div>
+				</div>
+			</div>
+			</form>
 			<div class="row">
 				<div id="result" class="container"></div>
 			</div>
@@ -63,11 +78,7 @@
 						<h4 class="modal-title">Settings</h4>
 					</div>
 					<div class="modal-body">
-						<div class="form-group col-sm-8">
-							<label class="sr-only" for="domain">PORT:</label>
-							Port: <input class="form-control" type="text" id="port" placeholder="80" />
-						</div>
-						Use path <input type=checkbox>
+
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

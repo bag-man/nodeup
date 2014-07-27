@@ -10,12 +10,14 @@ body {
 	margin-top:				15%;
 }
 
+#main .row {
+	margin-bottom: 			3%;
+}
+
 #result {
-	margin-top:				5%;
 	text-align: 			center;
 }
 
 #footer {
-	margin-top:				5%;
 	text-align: 			center;
 }

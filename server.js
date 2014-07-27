@@ -29,6 +29,10 @@ io.sockets.on('connection', function (socket) {
     //console.log(socket.id + " disconnected.");
   });
   
+  socket.on('domainVal', function(data) {
+    socket.emit('theDomain', {'domain':valURL(data.domain)});
+  });
+
   socket.on('domainSubmit', function(data) {
     domain = valURL(data.domain);
 

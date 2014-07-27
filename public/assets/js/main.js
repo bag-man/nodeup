@@ -88,7 +88,10 @@ socket.on('id', function(data) {
 });
 
 function testDomain(domain) {
-  domainSubmitted = domain;
+  socket.emit('domainVal', {'domain': domain, 'id': sessionID});
+  socket.on('theDomain', function(data) {
+    domainSubmitted = data.domain;
+  });
   popped = false;
   result = null;
 
@@ -119,7 +122,6 @@ function processResult(success) {
 }
 
 socket.on('result', function(data) {
-  console.log("This is the problem I think: " + domainSubmitted + " " + data.domain);
   if(domainSubmitted == data.domain && result != data.up && !popped) {
     if(data.up == true) {
       popped = true;

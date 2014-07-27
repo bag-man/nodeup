@@ -7,8 +7,32 @@ var domainInput   = document.getElementById('domain'),
     resultFail	  = $('<div class="alert alert-danger"><strong>Arsebiscuits!</strong> It\'s down!</div>'),
     notifications = false;
 
-getNotifyPerms();
+if(getCookie('notify', false)){
+  $('#notifyme').get()[0].checked = true;
+  getNotifyPerms();
+};
 domainInput.focus();
+
+function setCookie(name,value,days) {
+  var expiry			= '';
+  if (days) {
+    var date		= new Date();
+    date.setTime(date.getTime() + (days*24*60*60*1000));
+    expiry = "; expires="+date.toGMTString();
+  }
+  document.cookie		= name + '=' + value + expiry + '; path=/';
+};
+
+function getCookie(name, defaultVal) {
+  var value			= "; " + document.cookie;
+  var parts			= value.split("; " + name + "=");
+  if (parts.length == 2) {
+    return parts.pop().split(";").shift();
+  }
+  else {
+    return defaultVal;
+  }
+};
 
 function updateIcon(up) {
   var link = document.createElement('link');
@@ -28,8 +52,10 @@ function updateIcon(up) {
 function getNotifyPerms() {
   if (!("Notification" in window)) {
     //alert("This browser does not support desktop notification");
+    setCookie('notify', false);
   } else if (Notification.permission === "granted") {
     notifications = true;
+    setCookie('notify', true);
   } else if (Notification.permission !== 'denied') {
     Notification.requestPermission(function (permission) {
       if(!('permission' in Notification)) {
@@ -37,13 +63,17 @@ function getNotifyPerms() {
       }
       if (permission === "granted") {
         notifications = true;
+        setCookie('notify', true);
+      }
+      else {
+        setCookie('notify', false);
       }
     });
   }
   /*if(window.webkitNotifications) {
     window.webkitNotifications.requestPermission();
   }*/
-}
+};
 
 // Backend
 var socket = io.connect('/'),
@@ -121,6 +151,13 @@ socket.on('result', function(data) {
 $('#domainInput').submit(function(){
   testDomain($('#domain').val());
   return false;
+});
+
+$('#notifyme').change(function() {
+  setCookie('notify', true);
+  if(this.checked) {
+   getNotifyPerms();
+  }
 });
 
 if(window.location.pathname.substr(1).length) {

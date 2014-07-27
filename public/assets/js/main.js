@@ -40,6 +40,9 @@ function getNotifyPerms() {
       }
     });
   }
+  if (window.webkitNotifications) {
+    window.webkitNotifications.requestPermission();
+  }
 }
 
 // Backend
@@ -93,6 +96,9 @@ socket.on('result', function(data) {
 	  if(notifications == true) {
 	    var notification = new Notification(domainSubmitted + " is back up!");
 	  } 
+	  if(window.webkitNotifications.checkPermission() == 0) {
+	    window.webkitNotifications.createNotification(domainSubmitted + " has gone down!");
+	  }
 	  if(confirm("Its back up at " + domainSubmitted + "\nDo you want to go there now?")) {
 	    window.location.href = "http://" + domainSubmitted;
 	  }
@@ -104,6 +110,9 @@ socket.on('result', function(data) {
 	if(notifications == true) {
 	  var notification = new Notification(domainSubmitted + " has gone down!");
 	} 
+	if(window.webkitNotifications.checkPermission() == 0) {
+	  window.webkitNotifications.createNotification(domainSubmitted + " has gone down!");
+	}
 	alert(domainSubmitted + " has gone down! :(");
       }
     }

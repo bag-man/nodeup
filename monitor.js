@@ -59,7 +59,7 @@ Monitor.prototype.checkDomain = function() {
   var clients = this.clients;
   var target = {
 	host: this.domain,
-	port: 80,
+	port: 8080,
 	path: '/',
 	method: 'GET',
         agent: false,

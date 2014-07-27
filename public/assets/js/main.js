@@ -87,7 +87,6 @@ socket.on('id', function(data) {
   sessionID = data.id;
 });
 
-
 function testDomain(domain) {
   domainSubmitted = domain;
   popped = false;
@@ -120,7 +119,7 @@ function processResult(success) {
 }
 
 socket.on('result', function(data) {
-    console.log(result + " " + data.up);
+  console.log("This is the problem I think: " + domainSubmitted + " " + data.domain);
   if(domainSubmitted == data.domain && result != data.up && !popped) {
     if(data.up == true) {
       popped = true;
@@ -153,12 +152,12 @@ $('#domainInput').submit(function(){
   return false;
 });
 
-$('#notifyme').change(function() {
+/*$('#notifyme').change(function() {
   setCookie('notify', true);
   if(this.checked) {
    getNotifyPerms();
   }
-});
+});*/
 
 if(window.location.pathname.substr(1).length) {
   var path		= window.location.pathname.substr(1).split('/');

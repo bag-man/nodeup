@@ -7,11 +7,12 @@ var domainInput   = document.getElementById('domain'),
     resultFail	  = $('<div class="alert alert-danger"><strong>Arsebiscuits!</strong> It\'s down!</div>'),
     notifications = false;
 
-if(getCookie('notify', false)){
+/*if(getCookie('notify', false)){
   $('#notifyme').get()[0].checked = true;
   getNotifyPerms();
-};
+}; */
 domainInput.focus();
+getNotifyPerms();
 
 function setCookie(name,value,days) {
   var expiry			= '';
@@ -52,10 +53,10 @@ function updateIcon(up) {
 function getNotifyPerms() {
   if (!("Notification" in window)) {
     //alert("This browser does not support desktop notification");
-    setCookie('notify', false);
+    //setCookie('notify', false);
   } else if (Notification.permission === "granted") {
     notifications = true;
-    setCookie('notify', true);
+    //setCookie('notify', true);
   } else if (Notification.permission !== 'denied') {
     Notification.requestPermission(function (permission) {
       if(!('permission' in Notification)) {
@@ -63,10 +64,10 @@ function getNotifyPerms() {
       }
       if (permission === "granted") {
         notifications = true;
-        setCookie('notify', true);
+    //    setCookie('notify', true);
       }
       else {
-        setCookie('notify', false);
+     //   setCookie('notify', false);
       }
     });
   }
@@ -119,9 +120,8 @@ function processResult(success) {
 }
 
 socket.on('result', function(data) {
-  console.log(domainSubmitted == data.domain, result != data.up, !popped);
+    console.log(result + " " + data.up);
   if(domainSubmitted == data.domain && result != data.up && !popped) {
-   console.log("Are we even getting here?");
     if(data.up == true) {
       popped = true;
       if(notifications == true) {

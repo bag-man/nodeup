@@ -73,7 +73,7 @@ Monitor.prototype.checkDomain = function() {
     var up = upFinder(res.statusCode);
     for(var client in clients) {
       clients[client].callback(up);
-      // console.log("Sent:	" + clients[client].id);
+      console.log("Sent:	" + clients[client].id);
     }
   }).on('error', function(e) {
     //console.log(e);
@@ -86,7 +86,7 @@ Monitor.prototype.checkDomain = function() {
   this.handler = setTimeout(function() {
     parent.checkDomain()
   }, 5000); // Check every 5 seconds seemed reasonable
-  // this.log();
+  this.log();
 }
 
 module.exports = Monitor;

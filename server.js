@@ -3,6 +3,7 @@ var express = require('express'),
      server = require('http').createServer(app),
          io = require('socket.io').listen(server),
 	url = require('url'),
+       path = false,
     Monitor = require('./monitor.js'),
     domains = {};
 
@@ -30,11 +31,14 @@ io.sockets.on('connection', function (socket) {
   });
   
   socket.on('domainVal', function(data) {
-    socket.emit('theDomain', {'domain':valURL(data.domain)});
+    socket.emit('theDomain', {'domain':valURL(data)});
+    if(data.path == true) {
+      path == true;
+    }
   });
 
   socket.on('domainSubmit', function(data) {
-    domain = valURL(data.domain);
+    domain = valURL(data);
 
     if(domain == null) {
       return;
@@ -57,9 +61,15 @@ io.sockets.on('connection', function (socket) {
 });
 
 function valURL(inputUrl) {
-  var testUrl = url.parse(inputUrl);
+  var testUrl = url.parse(inputUrl.domain);
   if(testUrl.protocol == null) {
-    testUrl = url.parse('http://' + inputUrl);
+    testUrl = url.parse('http://' + inputUrl.domain);
   }
-  return testUrl.hostname;
+  if(path != true) {
+    console.log("Just domain " + testUrl.hostname);
+    return testUrl.hostname;
+  } else {
+    console.log("Using path: " + testUrl.hostname + testUrl.path);
+    return testUrl.hostname + testUrl.path;
+  }
 }

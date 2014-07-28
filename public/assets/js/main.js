@@ -71,14 +71,12 @@ function getNotifyPerms() {
       }
     });
   }
-  /*if(window.webkitNotifications) {
-    window.webkitNotifications.requestPermission();
-  }*/
 };
 
 // Backend
 var socket = io.connect('/'),
     sessionID,
+    usePath,
     popped = false,
     result = null,
     domainSubmitted,
@@ -89,7 +87,7 @@ socket.on('id', function(data) {
 });
 
 function testDomain(domain) {
-  socket.emit('domainVal', {'domain': domain, 'id': sessionID});
+  socket.emit('domainVal', {'domain': domain, 'path': usePath, 'id': sessionID});
   socket.on('theDomain', function(data) {
     domainSubmitted = data.domain;
   });
@@ -155,6 +153,12 @@ socket.on('result', function(data) {
 $('#domainInput').submit(function(){
   testDomain($('#domain').val());
   first = true;
+  if(window.webkitNotifications) {
+    console.log("It supports it!");
+    window.webkitNotifications.requestPermission();
+  } else {
+    console.log("This is not supported!");
+  }
   return false;
 });
 
@@ -164,6 +168,8 @@ $('#domainInput').submit(function(){
    getNotifyPerms();
   }
 });*/
+
+$('#usePath').change(function() { usePath = this.checked });
 
 if(window.location.pathname.substr(1).length) {
   var path		= window.location.pathname.substr(1).split('/');

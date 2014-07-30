@@ -66,10 +66,10 @@ function valURL(inputUrl) {
     testUrl = url.parse('http://' + inputUrl.domain);
   }
   if(path != true) {
-    console.log("Just domain " + testUrl.hostname);
+    //console.log("Just domain " + testUrl.hostname);
     return testUrl.hostname;
   } else {
-    console.log("Using path: " + testUrl.hostname + testUrl.path);
+    //console.log("Using path: " + testUrl.hostname + testUrl.path);
     return testUrl.hostname + testUrl.path;
   }
 }

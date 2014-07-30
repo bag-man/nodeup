@@ -81,6 +81,7 @@ Monitor.prototype.checkDomain = function() {
     for(var client in clients) {
       clients[client].callback(up);
     }
+    console.log("Sent:	" + clients[client].id);
   });
   var parent = this;
   this.handler = setTimeout(function() {

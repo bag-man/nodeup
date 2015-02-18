@@ -1,9 +1,0 @@
-   info  - socket.io started
-  
-events.js:72
-        throw er; // Unhandled 'error' event
-              ^
-Error: read ECONNRESET
-    at errnoException (net.js:904:11)
-    at TCP.onread (net.js:558:19)
-

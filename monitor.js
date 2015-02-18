@@ -49,9 +49,9 @@ Monitor.prototype.stop = function() {
 }
 
 Monitor.prototype.log = function() {
-  console.log("\n" + this.domain + ":");
+  //console.log("\n" + this.domain + ":");
   for(client in this.clients) {
-    console.log("	" + this.clients[client].id);
+   // console.log("	" + this.clients[client].id);
   }
 }
 
@@ -68,21 +68,25 @@ Monitor.prototype.checkDomain = function() {
 	}
   }
 
-  http.get(target, function(res) {
-    res.on('data',function(){}); // Do nothing with the data to free the socket.
-    var up = upFinder(res.statusCode);
-    for(var client in clients) {
-      clients[client].callback(up);
-      console.log("Sent:	" + clients[client].id);
-    }
-  }).on('error', function(e) {
-    //console.log(e);
-    var up = false;
-    for(var client in clients) {
-      clients[client].callback(up);
-    }
-    console.log("Sent:	" + clients[client].id);
-  });
+  try {
+    http.get(target, function(res) {
+      res.on('data',function(){}); // Do nothing with the data to free the socket.
+      var up = upFinder(res.statusCode);
+      for(var client in clients) {
+	clients[client].callback(up);
+	//console.log("Sent:	" + clients[client].id);
+      }
+    }).on('error', function(e) {
+      //console.log(e);
+      var up = false;
+      for(var client in clients) {
+	clients[client].callback(up);
+      }
+      //console.log("Sent:	" + clients[client].id);
+    });
+  } catch(err) {
+    console.log("ERROR! " + err);
+  }
   var parent = this;
   this.handler = setTimeout(function() {
     parent.checkDomain()

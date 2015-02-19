@@ -7,7 +7,7 @@ var express = require('express'),
     Monitor = require('./monitor.js'),
     domains = {};
 
-io.set('log level', 1); //Turn off logging
+//DEBUG=socket.io:* node server.js
 server.listen(80,'198.98.119.20');
 
 app.configure(function () {

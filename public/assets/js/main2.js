@@ -54,6 +54,7 @@ function testDomain(domain) {
   socket.emit('domainVal', {'domain': domain, 'path': usePath, 'id': sessionID});
   socket.on('theDomain', function(data) {
     domainSubmitted = data.domain;
+    console.log("Sent: " + JSON.stringify(data));
   });
 
   result = null;
@@ -84,6 +85,7 @@ function processResult(success) {
 }
 
 socket.on('result', function(data) {
+  console.log("Recieved: " + JSON.stringify(data));
   if(domainSubmitted == data.domain && result != data.up && first == false) {
     if(data.up == true) {
       if(notifications == true) {

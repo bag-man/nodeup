@@ -38,7 +38,7 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on('domainSubmit', function(data) {
-    domain = valURL(data);
+    var domain = valURL(data);
 
     if(domain == null) {
       return;

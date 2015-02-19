@@ -50,7 +50,7 @@ function updateIcon(up) {
 };
 
 // Taken from: https://developer.mozilla.org/en-US/docs/Web/API/notification
-function getNotifyPerms() {
+function getNotifyPermsOld() {
   if (!("Notification" in window)) {
     //alert("This browser does not support desktop notification");
     //setCookie('notify', false);
@@ -72,6 +72,21 @@ function getNotifyPerms() {
     });
   }
 };
+
+function getNotifyPerms() {
+  if (!Notification) {
+    alert('Notifications are supported in modern versions of Chrome, Firefox, Opera and Firefox.'); 
+    return;
+  }
+
+  if (Notification.permission !== "granted")
+    Notification.requestPermission();
+
+  if (Notification.permission === "granted")
+    notifications = true;
+
+}
+
 
 // Backend
 var socket = io.connect('/'),
@@ -127,7 +142,7 @@ socket.on('result', function(data) {
       popped = true;
       if(notifications == true) {
         var notification = new Notification(domainSubmitted + " is back up!");
-      } /*
+      }/* 
       if(window.webkitNotifications.checkPermission() == 0) {
         window.webkitNotifications.createNotification(domainSubmitted + " has gone down!");
       } */
@@ -138,7 +153,8 @@ socket.on('result', function(data) {
       popped = true;
       if(notifications == true) {
         var notification = new Notification(domainSubmitted + " has gone down!");
-      }  /*
+      }
+      /*
       if(window.webkitNotifications.checkPermission() == 0) {
         window.webkitNotifications.createNotification(domainSubmitted + " has gone down!");
       }*/

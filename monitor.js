@@ -83,7 +83,7 @@ Monitor.prototype.checkDomain = function() {
 	clients[client].callback(up);
       }
       //console.log("Sent:	" + clients[client].id);
-    });
+    }).end();
   } catch(err) {
     console.log("ERROR! " + err);
   }

@@ -12,6 +12,7 @@ The project was built using NodeJS, Express and Socket.IO.
 * Fix bugs, get a stable state, get notifications working correctly
 * Test path instead of domain feature
 * Test different port feature
+* User adjustable certainty (X successful attempts before declared up)
 * Email notification feature
 * Total users watching domain feature
 * Different location of server tests feature

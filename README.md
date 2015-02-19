@@ -9,6 +9,7 @@ The site is live at [itsback.at](http://itsback.at). Please remeber this site wa
 The project was built using NodeJS, Express and Socket.IO. 
 
 #Todo
+* warn  - websocket connection invalid, When client hits cancel instead of ok
 * Fix bugs, get a stable state, get notifications working correctly
 * Test path instead of domain feature
 * Test different port feature

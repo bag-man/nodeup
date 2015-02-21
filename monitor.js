@@ -77,7 +77,6 @@ Monitor.prototype.checkDomain = function() {
 	//console.log("Sent:	" + clients[client].id);
       }
     }).on('error', function(e) {
-      console.log(e);
       var up = false;
       for(var client in clients) {
 	clients[client].callback(up);

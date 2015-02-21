@@ -9,6 +9,13 @@ var express = require('express'),
 
 //DEBUG=socket.io:* node server.js
 server.listen(80,'198.98.119.20');
+console.log("Server started.");
+
+//https://stackoverflow.com/questions/17245881/node-js-econnreset
+process.on('uncaughtException', function (err) {
+  console.error(err.stack);
+  console.log("Node NOT Exiting...");
+});
 
 app.configure(function () {
   app.use(express.static(__dirname + '/public'));

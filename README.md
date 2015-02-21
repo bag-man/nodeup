@@ -16,3 +16,6 @@ The project was built using NodeJS, Express and Socket.IO.
 * Email notification feature
 * Total users watching domain feature
 * Different location of server tests feature
+* Report incorrect results feature / create a list of sites that block us
+* Chrome on android doesn't submit form correctly
+* "Placebo", so they know the site is working

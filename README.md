@@ -9,7 +9,6 @@ The site is live at [itsback.at](http://itsback.at). Please remeber this site wa
 The project was built using NodeJS, Express and Socket.IO. 
 
 #Todo
-* Fix bugs, get a stable state, get notifications working correctly
 * Test path instead of domain feature
 * Test different port feature
 * User adjustable certainty (X successful attempts before declared up)
@@ -20,3 +19,4 @@ The project was built using NodeJS, Express and Socket.IO.
 * Chrome on android doesn't submit form correctly
 * "Placebo", so they know the site is working
 * Safari support for notifications
+* Chrome / Firefox extension

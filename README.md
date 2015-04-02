@@ -20,3 +20,4 @@ The project was built using NodeJS, Express and Socket.IO.
 * "Placebo", so they know the site is working
 * Safari support for notifications
 * Chrome / Firefox extension
+* Client side version

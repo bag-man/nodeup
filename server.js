@@ -26,6 +26,11 @@ app.get('/:domain', function(req, res) {
   res.sendfile(__dirname + '/public/index.html');
 });
 
+// Accept URL parameters
+app.get('/api/:domain', function(req, res) {
+  console.log("DO API THINGS");
+});
+
 io.sockets.on('connection', function (socket) {
   socket.emit('id', {'id': socket.id});
   //console.log(socket.id + " connected.");

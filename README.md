@@ -21,3 +21,5 @@ The project was built using NodeJS, Express and Socket.IO.
 * Safari support for notifications
 * Chrome / Firefox extension
 * Client side version
+* Reddit bot
+* API

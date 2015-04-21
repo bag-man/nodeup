@@ -16,10 +16,10 @@ The project was built using NodeJS, Express and Socket.IO.
 * Total users watching domain feature
 * Different location of server tests feature
 * Report incorrect results feature / create a list of sites that block us
-* Chrome on android doesn't submit form correctly
 * "Placebo", so they know the site is working
 * Safari support for notifications
 * Chrome / Firefox extension
 * Client side version
 * Reddit bot
 * API
+* ~~Chrome on android doesn't submit form correctly~~ Cannot recreate bug

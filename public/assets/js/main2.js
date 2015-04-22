@@ -50,8 +50,8 @@ socket.on('id', function(data) {
   sessionID = data.id;
 });
 
-function testDomain(domain) {
-  socket.emit('domainVal', {'domain': domain, 'path': usePath, 'id': sessionID});
+function testDomain(url) {
+  socket.emit('domainVal', {'id': sessionID, 'url': url});
   socket.on('theDomain', function(data) {
     domainSubmitted = data.domain;
     console.log("Sent: " + JSON.stringify(data));
@@ -103,8 +103,32 @@ socket.on('result', function(data) {
   first = false;
 });
 
+function makeUrl(url, port){
+  if(url){
+    //javascripts URL class only takes urls beginning with a protocol decleration
+    // if the provided url doesnt start with http or https, add http to it
+    if(!$('#domain').val().match('^https?://')){
+      url = "http://" + urlText;
+    }
+    urlObj = new URL(url);
+    if(port){
+      urlObj.port = port;
+    }
+    return urlObj;
+  }
+  return false;
+}
+
 $('#domainInput').submit(function(){
-  testDomain($('#domain').val());
+  //Generate a URL object, set the port if it wasnt provided in the url from the protocol type
+  var url = makeUrl($('#domain').val());
+  if(!url.port){
+    if($('#port').val()){
+      url.port = $('#port').val();
+    }
+  }
+
+  testDomain(url);
   first = true;
   if(window.webkitNotifications) {
     //console.log("It supports it!");
@@ -120,6 +144,6 @@ $('#usePath').change(function() { usePath = this.checked });
 if(window.location.pathname.substr(1).length) {
   var path		= window.location.pathname.substr(1).split('/');
   console.log(path);
-  $('#domain').val(path[0]);
-  testDomain(path[0]);
+  
+  testDomain(makeUrl(path[0], path[1]));
 }

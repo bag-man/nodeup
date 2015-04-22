@@ -8,7 +8,7 @@ var express = require('express'),
     domains = {};
 
 //DEBUG=socket.io:* node server.js
-server.listen(80,'198.98.119.20');
+server.listen(80);
 console.log("Server started.");
 
 //https://stackoverflow.com/questions/17245881/node-js-econnreset
@@ -33,7 +33,7 @@ app.get('/api/:domain', function(req, res) {
 
 io.sockets.on('connection', function (socket) {
   socket.emit('id', {'id': socket.id});
-  //console.log(socket.id + " connected.");
+  //console.log("%s connected. %O", socket.id, socket );
 
   socket.on('disconnect', function() {
     for(var i in domains) {
@@ -43,13 +43,15 @@ io.sockets.on('connection', function (socket) {
   });
   
   socket.on('domainVal', function(data) {
-    socket.emit('theDomain', {'domain':valURL(data)});
-    if(data.path == true) {
-      path == true;
-    }
+    //socket.emit('theDomain', {'domain':valURL(data)});
+    console.log("Domain Value: ", data);
+//    if(data.path == true) {
+//      path == true;
+//    }
   });
 
   socket.on('domainSubmit', function(data) {
+    console.log("Domain Submit: ", data);
     var domain = valURL(data);
 
     if(domain == null) {

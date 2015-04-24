@@ -1,23 +1,27 @@
 body {
-	background-image:		url('../imgs/background.png');
+  background-image: url('../imgs/background.png');
 }
 
 .container {
-	max-width:				750px;
+  max-width: 750px;
 }
 
 #main {
-	margin-top:				15%;
+  margin-top: 15%;
 }
 
 #main .row {
-	margin-bottom: 			3%;
+  margin-bottom: 3%;
 }
 
 #result {
-	text-align: 			center;
+  text-align: center;
 }
 
 #footer {
-	text-align: 			center;
+  text-align: center;
+}
+
+.nodisplay {
+  display: none;
 }

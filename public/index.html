@@ -2,109 +2,108 @@
 <html lang="en-GB">
 
   <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-	<link rel="icon" type="image/x-icon" href="/assets/imgs/favicon.ico" />
-	<link href="/assets/css/bootstrap.css" rel="stylesheet" />
-	<link href="/assets/css/bootstrap-theme.css" rel="stylesheet" />
-	<link href="/assets/css/font-awesome.css" rel="stylesheet" />
-	<link href="/assets/css/main.css" rel="stylesheet" />
+  <link rel="icon" type="image/x-icon" href="/assets/imgs/favicon.ico" />
+  <link href="/assets/css/bootstrap.css" rel="stylesheet" />
+  <link href="/assets/css/bootstrap-theme.css" rel="stylesheet" />
+  <link href="/assets/css/font-awesome.css" rel="stylesheet" />
+  <link href="/assets/css/main.css" rel="stylesheet" />
 
-	<script>
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-	  ga('create', 'UA-53020648-1', 'auto');
-		ga('send', 'pageview');
-	
-	</script><title>Is it back yet?</title>
+    ga('create', 'UA-53020648-1', 'auto');
+    ga('send', 'pageview');
+  
+  </script>
+  <title>Is it back yet?</title>
   </head>
 
   <body>
-	<div id="main" class="container">
-			<form class="form-inline" id="domainInput">
-			<div class="row">
-				<div class="form-group col-sm-8">
-					<label class="sr-only" for="domain">Domain:</label>
-					<input class="form-control" type="text" id="domain" placeholder="example.com" />
-				</div>
-				<div class="col-sm-4">
-					<button class="btn btn-primary" type="submit" style="width: 100%">Check</button>
-				</div>
-			</div>
-			</form>
-			<div class="row">
-				<div id="result" class="container"></div>
-			</div>
-			<div class="row">
-				<div id="footer" class="container">
-					<a class="btn" data-toggle="modal" data-target="#info"><i class="fa fa-info-circle"></i></a>
-					<a class="btn" data-toggle="modal" data-target="#settings"><i class="fa fa-cog"></i></a>
-				</div>
-			</div>
-		</div>
-		<div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title">How does this site work?</h4>
-					</div>
-					<div class="modal-body">
-							<p>Simply enter a URL into the website, and we will tell you if the site goes up or down with a browser alert. No longer do you have to keep hitting refresh!</p>
-						<p>You can also access the site by using "http://itsback.at/sitethatisdown.com"</p>
-					</div>
-					<div class="modal-footer">
-						<a class="btn btn-success" href="https://github.com/bag-man/nodeup"><i class="fa fa-github fa-lg"><!-- ALL GLORY TO THE OCTOCAT --></i> Find us on GitHub!</a>
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title">Settings (These don't work yet)</h4>
-					</div>
-					<div class="modal-body">
-						<div class="row">
-							<div class="form-group col-sm-6">
-								<div class="input-group">
-									<div class="input-group-addon">Port:</div>
-									<input class="form-control" type="text" id="port" placeholder="80" />
-								</div>
-							</div>
-							<div class="col-sm-3">
-								<div class="checkbox">
-									<label>
-										<input id="usePath" type="checkbox" /> Use path
-									</label>
-								</div>
-							</div>
-							<div class="col-sm-3">
-								<div class="checkbox">
-									<label>
-										<input type="checkbox" id="notifyme" /> Notify Me
-									</label>
-								</div>
-							</div>
-						</div>
+  <div id="main" class="container">
+      <form class="form-inline" id="domainInput">
+      <div class="row">
+        <div class="form-group col-sm-8">
+          <label class="sr-only" for="domain">Domain:</label>
+          <input class="form-control" type="text" id="domain" placeholder="example.com" />
+        </div>
+        <div class="col-sm-4">
+          <button class="btn btn-primary" type="submit" style="width: 100%">Check</button>
+        </div>
+      </div>
+      </form>
+      <div class="row">
+        <div id="result" class="container">
+          <div class="alert alert-info nodisplay" id="alertChecking"><i class="fa fa-repeat fa-spin"></i> Checking...</div>
+          <div class="alert alert-success nodisplay" id="alertSuccess"><strong>Hooray!</strong> It&#39;s up!</div>
+          <div class="alert alert-danger nodisplay" id="alertFail"><strong>Arsebiscuits!</strong> It&#39;s down!</div>
+          <div class="alert alert-warning nodisplay" id="alertError"><strong>Whoops!</strong> Doesn&#39;t look like thats a proper url!</div>
+        </div>
+      </div>
+      <div class="row">
+        <div id="footer" class="container">
+          <a class="btn" data-toggle="modal" data-target="#info"><i class="fa fa-info-circle"></i></a>
+          <a class="btn" data-toggle="modal" data-target="#settings" id="settingsBtn"><i class="fa fa-cog"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">How does this site work?</h4>
+          </div>
+          <div class="modal-body">
+            <p>Simply enter a URL into the website, and we will tell you if the site goes up or down with a browser alert. No longer do you have to keep hitting refresh!</p>
+            <p>You can also access the site by using "http://itsback.at/sitethatisdown.com"</p>
+          </div>
+          <div class="modal-footer">
+            <a class="btn btn-success" href="https://github.com/bag-man/nodeup"><i class="fa fa-github fa-lg"><!-- ALL GLORY TO THE OCTOCAT --></i> Find us on GitHub!</a>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Settings</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <div class="input-group">
+                  <div class="input-group-addon">Port:</div>
+                  <input class="form-control" type="text" id="port" placeholder="80" />
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" id="notifyme" checked="checked"/> Notify Me
+                  </label>
+                </div>
+              </div>
+            </div>
 
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<script src="/assets/js/jquery.js"></script>
-		<script src="/assets/js/bootstrap.js"></script>
-		<script src="/socket.io/socket.io.js"></script>
-		<script src="/assets/js/main2.js"></script>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/assets/js/jquery.js"></script>
+    <script src="/assets/js/bootstrap.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/assets/js/main.js"></script>
   </body>
 </html>

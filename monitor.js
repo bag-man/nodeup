@@ -1,12 +1,33 @@
-var http = require('follow-redirects').http;
+var http = require('follow-redirects').http,
+     url = require('url');
 
 function upFinder(code) {
   //These are the only HTTP codes we consider UP, but we need more HTTP knowledge/testing
   return !!(code >= 200 && code <= 203); 
 }
 
+/* Creates a new monitor object for a domain
+ *
+ * domain: url object eg
+ *  { protocol: 'http:',
+ *    slashes: true,
+ *    auth: null,
+ *    host: 'google.com',
+ *    port: null,
+ *    hostname: 'google.com',
+ *    hash: null,
+ *    search: null,
+ *    query: null,
+ *    pathname: '/',
+ *    path: '/',
+ *    href: 'http://google.com/'
+ *  }
+ */
 function Monitor(domain) {
   this.domain = domain;
+  if(domain.port === null){
+    domain.port = 80;
+  }
   this.clients = [];
   this.handler;
   this.started = false;
@@ -51,21 +72,21 @@ Monitor.prototype.stop = function() {
 Monitor.prototype.log = function() {
   //console.log("\n" + this.domain + ":");
   for(client in this.clients) {
-   // console.log("	" + this.clients[client].id);
+   // console.log(" " + this.clients[client].id);
   }
 }
 
 Monitor.prototype.checkDomain = function() {
   var clients = this.clients;
   var target = {
-	host: this.domain,
-	port: 80,
-	path: '/',
-	method: 'GET',
-        agent: false,
-	headers: {
-	    'User-Agent': 'Mozilla/5.0'
-	}
+    host: this.domain.host,
+    port: this.domain.port,
+    path: this.domain.pathname,
+    method: 'GET',
+    agent: false,
+    headers: {
+      'User-Agent': 'Mozilla/5.0'
+    }
   }
 
   try {
@@ -73,15 +94,15 @@ Monitor.prototype.checkDomain = function() {
       res.on('data',function(){}); // Do nothing with the data to free the socket.
       var up = upFinder(res.statusCode);
       for(var client in clients) {
-	clients[client].callback(up);
-	//console.log("Sent:	" + clients[client].id);
+        clients[client].callback(up);
+        //console.log("Sent:  " + clients[client].id);
       }
     }).on('error', function(e) {
       var up = false;
       for(var client in clients) {
-	clients[client].callback(up);
+        clients[client].callback(up);
       }
-      //console.log("Sent:	" + clients[client].id);
+      //console.log("Sent:  " + clients[client].id);
     }).end();
   } catch(err) {
     console.log("ERROR! " + err);

@@ -1,15 +1,31 @@
 'use strict';
 
 // Cosmetic
-var domainInput   = $('#domain'),
-    checking      = $('<div class="alert alert-info"><i class="fa fa-repeat fa-spin"></i> Checking...</div>'),
-    resultSuccess = $('<div class="alert alert-success"><strong>Hooray!</strong> It\'s up!</div>'), 
-    resultFail	  = $('<div class="alert alert-danger"><strong>Arsebiscuits!</strong> It\'s down!</div>'),
-    notifications = false;
+var alertChecking  = $('#alertChecking'),
+    alertSuccess   = $('#alertSuccess'), 
+    alertError     = $('#alertError'),
+    alertFail      = $('#alertFail'),
+    notifyCheckbox = $('#notifyme'),
+    pathCheckbox   = $('#usePath'),
+    domainInputBox = $('#domain'),
+    alertContainer = $('#result'),
+    alertCurrent   = null;
 
-domainInput.focus();
-getNotifyPerms();
+//Focus the input field
+$('#domain').focus();
+//And setup for notifications
+if(Notification){
+  if (Notification.permission === "default") {
+    Notification.requestPermission();
+  }
+} else {
+  notifyCheckbox.attr("disabled", "disabled");
+}
 
+/* Updates the fabicon.
+ *
+ * up: boolean, whether the domain being queried is up or not
+ */
 function updateIcon(up) {
   var link = document.createElement('link');
       link.type = 'image/x-icon';
@@ -24,135 +40,99 @@ function updateIcon(up) {
   document.getElementsByTagName('head')[0].appendChild(link);
 };
 
-function getNotifyPerms() {
-  if (!Notification) {
-    alert('Notifications are supported in modern versions of Chrome, Firefox, Opera and Firefox.'); 
-    return;
-  }
-
-  if (Notification.permission !== "granted")
-    Notification.requestPermission();
-
-  if (Notification.permission === "granted")
-    notifications = true;
-
+/* return if notifications can be used
+ */
+function canNotify() {
+  return (Notification && Notification.permission === "granted");
 }
 
-// Backend
+
+// Backend //
 var socket = io.connect('/'),
+    notifications = false,
     sessionID,
-    usePath,
+    usePath = false,
+    notifyme = true,
     result = null,
-    domainSubmitted,
+    urlSubmitted,
     first = true;
 
 socket.on('id', function(data) {
   sessionID = data.id;
 });
 
-function testDomain(url) {
-  console.log("testDomain ", url);
-  if(!url){
-    console.log("Error, url is invalid?");
+/* submits a url to the backend server
+ *
+ * url: the url to be submitted
+ */
+function submitUrl(url) {
+
+  //dont bother for empty urls
+  if(!url || url.length < 3){
     return; 
   }
-  socket.emit('domainVal', {'id': sessionID, 'url': url});
-  socket.on('theDomain', function(data) {
-    domainSubmitted = data;
-    console.log("Sent: " + JSON.stringify(data));
+
+  //request listening for the domain
+  socket.emit('url', {'id': sessionID, 'url': url});
+
+  //get the servers validation of the url
+  socket.on('urlResponse', function(data) {
+    //server returns false if its invalid
+    if(!data){
+      showAlert(alertError);
+      return false;
+    }
+    showAlert(alertChecking);
+    urlSubmitted = data
   });
 
   result = null;
-
-  $('#result').fadeOut('fast', function() {
-    $('#result').html(checking).fadeIn('fast');
-    socket.emit('domainSubmit', {'domain': domain, 'id': sessionID});
-  });
-}
-
-function processResult(success) {
-
-  if(success == true) {
-    document.title = "It's back!";
-  } else {
-    document.title = "It's down :(";
-  }
-
-  updateIcon(success);
-  if(result == success) {
-    return;
-  }
-
-  result = success;
-  $('#result').fadeOut('fast', function() {
-    $('#result').html((success ? resultSuccess : resultFail)).fadeIn('fast');
-  });
 }
 
 socket.on('result', function(data) {
-  console.log("Recieved: " + JSON.stringify(data));
-//  if(domainSubmitted == data.domain && result != data.up && first == false) {
-//    if(data.up == true) {
-//      if(notifications == true) {
-//        var notification = new Notification(domainSubmitted + " is back up!");
-//      }
-//      
-//    } else {
-//      if(notifications == true) {
-//        var notification = new Notification(domainSubmitted + " has gone down!");
-//      }
-//    }
-//  }
-
-  processResult(data.up);
-  first = false;
+  if(data.url == urlSubmitted){
+    if(data.up){
+      showAlert(alertSuccess);
+    } else {
+      showAlert(alertFail);
+    }
+  } else {
+    console.log("Error, something went wrong! Listening to the wrong domain?!");
+  }
 });
 
-function makeUrl(url, port){
-  if(url){
-    //javascripts URL class only takes urls beginning with a protocol decleration
-    // if the provided url doesnt start with http or https, add http to it
-    if(!url.match('^https?://')){
-      url = "http://" + url;
-    }
-    var urlObj = new URL(url);
-    if(port){
-      urlObj.port = port;
-    }
-    return urlObj;
+function showAlert(alert){
+  //dont bother changing the box if it's the same one!
+  if(alert == alertCurrent){
+    return;
   }
-  return false;
+  //fade out the current alert box
+  if(alertCurrent){
+    alertCurrent.fadeOut('fast', function(){
+      alert.fadeIn('fast');
+    })
+  } else {
+    //if no result box present, fade in the alert box
+    alert.fadeIn('fast');
+  }
+
+  //and set the current result box
+  alertCurrent = alert;
 }
 
 $('#domainInput').submit(function(){
-  //Generate a URL object, set the port if it wasnt provided in the url from the protocol type
-  var url = makeUrl($('#domain').val());
-  if(!url){
-    console.log("Error making URL");
-    return;
-  }
-  if(!url.port){
-    if($('#port').val()){
-      url.port = $('#port').val();
-    }
-  }
-
-  testDomain(url);
-  first = true;
-  if(window.webkitNotifications) {
-    //console.log("It supports it!");
-    window.webkitNotifications.requestPermission();
-  } else {
-    //console.log("This is not supported!");
-  }
-  return false;
+  submitUrl(domainInputBox.val());
+  return false; //return false to prevent page reloading
 });
 
-$('#usePath').change(function() { usePath = this.checked });
-
 if(window.location.pathname.substr(1).length) {
-  var path		= window.location.pathname.substr(1).split('/');
-  console.log(path);
-  
-  testDomain(makeUrl(path[0], path[1]));
+  var url	= decodeURIComponent(window.location.pathname.substr(1).split('/')[0]);
+
+  //be user friendly and set the input box
+  domainInputBox.val(url);
+  submitUrl(url);
 }
+
+//bind events to settings modal
+$('#usePath').change(function() { usePath = this.checked });
+$('#notifyme').change(function() { notifyme = this.checked });

@@ -3,9 +3,12 @@
 // Cosmetic
 var alertChecking  = $('#alertChecking'),
     alertSuccess   = $('#alertSuccess'), 
+    watchersWell   = $('#watchersWell'),
     alertError     = $('#alertError'),
+    watchCount     = $('#watchCount'),
     alertFail      = $('#alertFail'),
     notifyCheckbox = $('#notifyme'),
+    watchUrl       = $('#watchUrl'),
     pathCheckbox   = $('#usePath'),
     domainInputBox = $('#domain'),
     alertContainer = $('#result'),
@@ -50,12 +53,12 @@ function canNotify() {
 // Backend //
 var socket = io.connect('/'),
     notifications = false,
-    sessionID,
     usePath = false,
     notifyme = true,
     result = null,
-    urlSubmitted,
-    first = true;
+    first = true,
+    sessionID,
+    submittedUrl;
 
 socket.on('id', function(data) {
   sessionID = data.id;
@@ -71,34 +74,39 @@ function submitUrl(url) {
   if(!url || url.length < 3){
     return; 
   }
+  
+  submittedUrl = makeUrlObject(url);
 
   //request listening for the domain
   socket.emit('url', {'id': sessionID, 'url': url});
-
-  //get the servers validation of the url
-  socket.on('urlResponse', function(data) {
-    //server returns false if its invalid
-    if(!data){
-      showAlert(alertError);
-      return false;
-    }
-    showAlert(alertChecking);
-    urlSubmitted = data
-  });
+  showAlert(alertChecking);
 
   result = null;
 }
 
 socket.on('result', function(data) {
-  if(data.url == urlSubmitted){
-    if(data.up){
-      showAlert(alertSuccess);
-    } else {
-      showAlert(alertFail);
-    }
-  } else {
-    console.log("Error, something went wrong! Listening to the wrong domain?!");
+  console.log(data);
+  if(!data){
+    showAlert(alertError);
+    watchersWell.hide();
+    return;
   }
+
+  //show watchers if more than one
+  if(data.watchers && data.watchers > 0){
+    watchCount.html(data.watchers);
+    watchUrl.attr('href', submittedUrl.href);
+    watchUrl.html(submittedUrl.href);
+    watchersWell.show();
+  }
+
+  if(data.up){
+    showAlert(alertSuccess);
+
+  } else {
+    showAlert(alertFail);
+  }
+
 });
 
 function showAlert(alert){
@@ -131,6 +139,14 @@ if(window.location.pathname.substr(1).length) {
   //be user friendly and set the input box
   domainInputBox.val(url);
   submitUrl(url);
+}
+
+function makeUrlObject(url){
+  var regexp = /^https?:\/\//
+  if(!regexp.test(url)){
+    url = "http://" + url;
+  }
+  return new URL(url);
 }
 
 //bind events to settings modal

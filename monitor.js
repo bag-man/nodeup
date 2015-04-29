@@ -76,6 +76,10 @@ Monitor.prototype.log = function() {
   }
 }
 
+Monitor.prototype.getCount = function(){
+  return this.clients.length;
+}
+
 Monitor.prototype.checkDomain = function() {
   var clients = this.clients;
   var target = {

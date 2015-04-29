@@ -47,7 +47,7 @@ io.sockets.on('connection', function (socket) {
     //Validate the url
     if(!validateURL(data.url)) {
       console.log("Invalid url %s", data.url);
-      socket.emit('urlResponse', false);
+      socket.emit('result', false);
       return;
     }
     
@@ -57,7 +57,7 @@ io.sockets.on('connection', function (socket) {
 
     if(urlObject === null){
       console.log("Something went wrong, couldnt create url object from url ", data.url);
-      socket.emit('urlResponse', false);
+      socket.emit('result', false);
       return;
     }
 
@@ -76,8 +76,6 @@ io.sockets.on('connection', function (socket) {
       }
     }
 
-    socket.emit('urlResponse', urlObject.href);
-
     //create a key to store the monitor under; this could be adapted in future to have a single monitor for host,
     // which then checks paths?
     var key = urlObject.href;
@@ -95,7 +93,7 @@ io.sockets.on('connection', function (socket) {
 
     //and add the client to the new domain and create the callback event
     domains[key].addClient(socket.id, function(up) {
-      socket.emit('result', {'up': up, 'url': key});
+      socket.emit('result', {'up': up, 'url': key, 'watchers' : domains[key].getCount()});
     });
   });
 });

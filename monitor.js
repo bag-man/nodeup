@@ -96,9 +96,8 @@ Monitor.prototype.checkDomain = function() {
   try {
     http.get(target, function(res) {
       res.on('data',function(){}); // Do nothing with the data to free the socket.
-      var up = upFinder(res.statusCode);
       for(var client in clients) {
-        clients[client].callback(up);
+        clients[client].callback(res.statusCode);
         //console.log("Sent:  " + clients[client].id);
       }
     }).on('error', function(e) {

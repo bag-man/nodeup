@@ -56,7 +56,6 @@ var socket = io.connect('/'),
     usePath = false,
     notifyme = true,
     result = null,
-    first = true,
     sessionID,
     submittedUrl;
 
@@ -93,7 +92,7 @@ socket.on('result', function(data) {
   }
 
   //show watchers if more than one
-  if(data.watchers && data.watchers > 0){
+  if(data.watchers && data.watchers > 1){
     watchCount.html(data.watchers);
     watchUrl.attr('href', submittedUrl.href);
     watchUrl.html(submittedUrl.href);
@@ -152,3 +151,8 @@ function makeUrlObject(url){
 //bind events to settings modal
 $('#usePath').change(function() { usePath = this.checked });
 $('#notifyme').change(function() { notifyme = this.checked });
+$(document.body).on('click', '.newResponseRule', function(){
+  //get everything relative to the 
+   $(this).parent().parent().parent().after($('#dummyResponseRow').clone().show());
+   $(this).remove()
+});

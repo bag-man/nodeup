@@ -23,5 +23,9 @@ body {
 }
 
 .nodisplay {
-  display: none;
+  display: none !important;
+}
+
+input[type="number"] {
+  width: 6em;
 }

@@ -92,8 +92,8 @@ io.sockets.on('connection', function (socket) {
     }
 
     //and add the client to the new domain and create the callback event
-    domains[key].addClient(socket.id, function(up) {
-      socket.emit('result', {'up': up, 'url': key, 'watchers' : domains[key].getCount()});
+    domains[key].addClient(socket.id, function(response) {
+      socket.emit('result', {'response': response, 'url': key, 'watchers' : domains[key].getCount() - 1});
     });
   });
 });

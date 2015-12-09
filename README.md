@@ -22,4 +22,3 @@ The project was built using NodeJS, Express and Socket.IO.
 * Client side version
 * Reddit bot
 * API
-* ~~Chrome on android doesn't submit form correctly~~ Cannot recreate bug

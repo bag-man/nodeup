@@ -14,7 +14,7 @@ The project was built using NodeJS, Express and Socket.IO.
 * User adjustable certainty (X successful attempts before declared up)
 * Email notification feature
 * Total users watching domain feature
-* Different location of server tests feature
+* Different location of server tests feature (Sensu?)
 * Report incorrect results feature / create a list of sites that block us
 * "Placebo", so they know the site is working
 * Safari support for notifications

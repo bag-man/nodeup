@@ -9,6 +9,7 @@ The site is live at [itsback.at](http://itsback.at). Please remeber this site wa
 The project was built using NodeJS, Express and Socket.IO. 
 
 #Todo
+* Rewrite it, make an npm module for the pinging part
 * Test path instead of domain feature
 * Test different port feature
 * User adjustable certainty (X successful attempts before declared up)

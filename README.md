@@ -23,3 +23,11 @@ The project was built using NodeJS, Express and Socket.IO.
 * Client side version
 * Reddit bot
 * API
+* Debug:
+
+    Error: Requested Range Not Satisfiable
+        at SendStream.error (/root/nodeup/node_modules/express/node_modules/send/lib/send.js:145:16)
+        at SendStream.send (/root/nodeup/node_modules/express/node_modules/send/lib/send.js:371:19)
+        at /root/nodeup/node_modules/express/node_modules/send/lib/send.js:323:10
+        at FSReqWrap.oncomplete (fs.js:95:15)
+

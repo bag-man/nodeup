@@ -1,3 +1,8 @@
+## New Version! 
+
+This is an outdated repository, but I am leaving it here for historical referrence. The new version is [here](https://github.com/aardvarks/itsback.at).
+
+
 ##It's Back At!
 
 This is a little project I am working on with [Jamie Knight](http://github.com/jamiek23) to make a website similar to isup.me, but with more awesome features!
